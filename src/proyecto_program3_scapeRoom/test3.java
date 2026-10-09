@@ -4,6 +4,7 @@ public class test3 {
 
 	public test3() {
 		System.out.println("hello");
+		System.out.println("Se borrara?");
 	}
 
 }
