@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		JFrameMenuPrincipal ventanMenu = new JFrameMenuPrincipal();
-		JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
+		//JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
 	}
 
 
