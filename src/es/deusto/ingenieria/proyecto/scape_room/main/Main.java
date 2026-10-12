@@ -10,5 +10,6 @@ public class Main {
 		JFrameMenuPrincipal ventanMenu = new JFrameMenuPrincipal();
 		JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
 	}
+	
 
 }
