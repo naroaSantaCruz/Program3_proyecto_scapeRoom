@@ -267,27 +267,32 @@ public class JFrameEscritorio extends JFrame{
 		bApagar.addActionListener(e -> {
 			menuDesplegable.setVisible(false);
 			int r = JOptionPane.showConfirmDialog(JFrameEscritorio.this,
-					"¿Quieres apagar el equipo?", "Apagar", JOptionPane.YES_NO_OPTION);
+					"¿Quieres rendirte?", "Apagar", JOptionPane.YES_NO_OPTION);
 			if (r == JOptionPane.YES_OPTION) {
-				//poner advertencia?
-				//System.exit(0);
+				JFrameEscritorio.this.dispose();
+				new JFrameMenuPrincipal();
 		}
 	});
 
 		bReiniciar.addActionListener(e -> {
-			//Mirar q hacer
-			//JFrameEscritorio.this.dispose();
-			//new JFrameEscritorio();
+			menuDesplegable.setVisible(false);
+			int r = JOptionPane.showConfirmDialog(JFrameEscritorio.this,
+					"¿Quieres reiniciar la partida?", "Apagar", JOptionPane.YES_NO_OPTION);
+			if (r == JOptionPane.YES_OPTION) {
+				JFrameEscritorio.this.dispose();
+				new JFrameEscritorio();
+		}
+			
 	});
 
 		bSuspender.addActionListener(e -> {
-			//Mirar q hacer
+			//Pausar temporizador
 			//menuDesplegable.setVisible(false);
 			//System.out.println("Suspender");
 	});
 
 		bCerrarSesion.addActionListener(e -> {
-			//Ir a la pantalla de inicio de sesion
+			//Ir a la pantalla de inicio de sesion, guardando datos
 			JFrameEscritorio.this.dispose();
 			new JFrameMenuPrincipal();
 	});
