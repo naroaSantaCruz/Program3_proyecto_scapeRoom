@@ -38,6 +38,7 @@ public class JFrameEscritorio extends JFrame{
 
 		// Componentes del escritorio
 		private JLabel papelera;
+		private JLabel explorador_archivos;
 
 		// Componentes de la barra
 		private JButton bInicio;
@@ -45,6 +46,7 @@ public class JFrameEscritorio extends JFrame{
 		private JButton bFlecha;
 		private JLabel reloj;
 		private Timer timer;
+		private JButton terminal;
 
 		// Botones del menú de inicio
 		private JButton bApagar;
@@ -81,10 +83,19 @@ public class JFrameEscritorio extends JFrame{
 		papelera.setVerticalTextPosition(SwingConstants.BOTTOM);
 		papelera.setForeground(Color.white);
 		papelera.setBounds(20, 20, 90, 80);
-		
-		
 		imagenFondo.add(papelera);
+		
+		Image imExplorador = new ImageIcon("images/escritorio/explorador_archivos.png").getImage()
+				.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+		explorador_archivos=new JLabel("Explorador", new ImageIcon(imExplorador), SwingConstants.CENTER);
+		explorador_archivos.setHorizontalTextPosition(SwingConstants.CENTER);
+		explorador_archivos.setVerticalTextPosition(SwingConstants.BOTTOM);
+		explorador_archivos.setForeground(Color.WHITE);
+		explorador_archivos.setBounds(20, 110, 90, 80); // 90 px más abajo que la papelera (que está en y=20)
+		imagenFondo.add(explorador_archivos);
+		
 
+		
 	}
 	
 	// -----------------------
@@ -113,14 +124,25 @@ public class JFrameEscritorio extends JFrame{
 		panelCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
 		panelCentro.setOpaque(false);
 		
+		//Barra búsqueda
 		barraBusqueda = new JTextField(" Buscar");
 		barraBusqueda.setPreferredSize(new Dimension(300,30));
 		barraBusqueda.setForeground(Color.gray);
 		barraBusqueda.setBackground(Color.white);
 		barraBusqueda.setEditable(false);
-		
 		panelCentro.add(barraBusqueda);
 		
+		//Terminal
+		Image imTerminal=new ImageIcon("images/escritorio/terminal.png").getImage()
+				.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+		terminal = new JButton(new ImageIcon(imTerminal));
+		terminal.setPreferredSize(new Dimension(40,35));
+		terminal.setFocusPainted(false);
+		terminal.setContentAreaFilled(false);
+		terminal.setBorder(null);
+		terminal.setToolTipText("Terminal");
+		
+		panelCentro.add(terminal);
 		
 		
 		//-----Crear JPanel DERECHA administrador tareas-----
@@ -296,7 +318,50 @@ public class JFrameEscritorio extends JFrame{
 			JFrameEscritorio.this.dispose();
 			new JFrameMenuPrincipal();
 	});
+		//mouse listener para que se cambie el borde
+		terminal.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				terminal.setBorder(BorderFactory.createLineBorder(new Color(120, 160, 220)));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				terminal.setBorder(null);
+			}
+		});
+		
+		//action listener para que vaya a el jframe
+		terminal.addActionListener(e -> {
+			//new JFrameTerminal();
+			System.out.println("Abrir terminal");
+		});
+		
+		//EXPLORADOR ARCHIVOS
+		explorador_archivos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// efecto de "seleccionado" al pasar por encima
+				explorador_archivos.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 150)));
+			
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				explorador_archivos.setBorder(null);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { // doble clic, como en Windows
+					System.out.println("Explorador de archivos abierta");
+					// aquí abrirás la ventana de la papelera
+				}
+			}
+		});
 }
+	
+
 
 
 	// --------------------------------
@@ -309,7 +374,7 @@ public class JFrameEscritorio extends JFrame{
 		this.add(panelPrincipal);
 		
 		this.setTitle("Escritorio");
-		// this.setUndecorated(true); para quitar a barra de título
+		this.setUndecorated(true); //para quitar a barra de título
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
