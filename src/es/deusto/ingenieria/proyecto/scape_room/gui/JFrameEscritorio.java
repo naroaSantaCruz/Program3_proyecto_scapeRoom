@@ -39,6 +39,7 @@ public class JFrameEscritorio extends JFrame{
 		// Componentes del escritorio
 		private JLabel papelera;
 		private JLabel explorador_archivos;
+		private JLabel chat;
 
 		// Componentes de la barra
 		private JButton bInicio;
