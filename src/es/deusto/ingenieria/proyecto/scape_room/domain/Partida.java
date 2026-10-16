@@ -29,7 +29,7 @@ public class Partida {
 
 	public Partida(String nombreJugador, boolean saltarIntro, Dificultad dificultad) {
 		super();
-		setNombreJUgador(nombreJugador);
+		this.nombreJugador = nombreJugador;
 		this.saltarIntro = saltarIntro;
 		this.dificultad = dificultad;
 		setTiempoTotal();
@@ -80,11 +80,6 @@ public class Partida {
 		return nombreJugador;
 	}
 
-	public void setNombreJUgador(String nombreJugador) {
-		if (nombreJugador.contains(";")) {
-			JOptionPane.showMessageDialog(null, "Tu nombre de registro para la partida no puede contener el caracter --> ;");
-		}
-	}
 	public LocalDateTime getFechaInicio() {
 		return fechaInicio;
 	}
@@ -93,21 +88,6 @@ public class Partida {
 		return saltarIntro;
 	}
 
-	public void registrarPartidaEmpezada() {
-		if (!this.completada) {
-			try {
-				BufferedWriter bff = new BufferedWriter(new FileWriter("src/es/deusto/ingenieria/proyecto/scape_room/io/partidasCargables.txt",
-														true));
-				
-				bff.write(fechaInicio.toString()+";"+nombreJugador+";"+tiempoJugado);
-				bff.newLine();
-				bff.close();
-				
-			} catch (IOException e) {
-				System.err.println("No se ha encontrado el fichero");
-			}
-		}
-	}
 	
 }
 
