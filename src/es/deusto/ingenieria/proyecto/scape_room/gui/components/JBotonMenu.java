@@ -20,7 +20,7 @@ public class JBotonMenu extends JButton{
 	private final Dimension dimensionBoton = new Dimension(300, 65);
 	
 	private final Font FUENTE = new Font("Bahnschrift",Font.BOLD,23);
-	
+	private final Color COLOR = new Color(170,235,255);
 	private ImageIcon imagenBoton;
 	private ImageIcon imagenBotonSel;
 	
@@ -34,7 +34,7 @@ public class JBotonMenu extends JButton{
 		this.setOpaque(false);
 		this.setText(texto);
 		this.setFont(FUENTE);
-		this.setForeground(new Color(170,235,255));
+		this.setForeground(COLOR);
 		this.setHorizontalTextPosition(JButton.CENTER);
 		this.setVerticalTextPosition(JButton.CENTER);
 		

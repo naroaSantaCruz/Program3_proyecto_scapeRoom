@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputListener;
 
+import es.deusto.ingenieria.proyecto.scape_room.domain.Dificultad;
+import es.deusto.ingenieria.proyecto.scape_room.domain.Partida;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonMenu;
 
 public class JFrameMenuPrincipal extends JFrame{
@@ -146,6 +149,22 @@ public class JFrameMenuPrincipal extends JFrame{
 				bConfiguracion.setIcon(imagenConfig);
 			}
 			
+		});
+		
+		bJugar.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Para prbar que funciona
+				ArrayList<Partida> partidasPrueba = new ArrayList<Partida>();
+				partidasPrueba.add(new Partida("Naroa", false, Dificultad.FACIL));
+				partidasPrueba.add(new Partida("Aitor", true, Dificultad.NORMAL));
+				partidasPrueba.add(new Partida("Leire", false, Dificultad.DIFICIL));
+				partidasPrueba.add(new Partida("Unai", true, Dificultad.NORMAL));
+				
+				JFrame jugar = new JFrameCrearCargarpartida(partidasPrueba);
+				JFrameMenuPrincipal.this.dispose();
+					
+			}
 		});
 		
 		
