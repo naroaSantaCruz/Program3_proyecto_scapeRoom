@@ -49,7 +49,7 @@ public class JFrameCrearCargarpartida extends JFrame{
 	private JPanel panelCrearPartida = new JPanel(new BorderLayout());
 	
 	private JPanel panelPrincipal = new JPanel(new BorderLayout());
-	private JPanel panelCentral = new JPanel(new GridLayout(2,3,80,35)); 
+	private JPanel panelCentral = new JPanel(new GridLayout(2,3,60,35)); 
 	
 	private JPanel panelFooter = new JPanel();
 	private JBotonMenu bVolver;
