@@ -101,11 +101,7 @@ public class JFramePantallaInicio extends JFrame {
 		fondo.add(panelCentral, BorderLayout.CENTER);
 		fondo.add(footer, BorderLayout.SOUTH);
 		
-	}
-
-	public static void main(String[] args) {
-		JFramePantallaInicio pantallaInicio = new JFramePantallaInicio();
-		pantallaInicio.setVisible(true);
+		this.setVisible(true);
 	}
 
 }
