@@ -9,6 +9,7 @@ import es.deusto.ingenieria.proyecto.scape_room.domain.Partida;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameCrearCargarpartida;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameEscritorio;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameMenuPrincipal;
+import es.deusto.ingenieria.proyecto.scape_room.gui.JFramePantallaInicio;
 
 public class Main {
 
@@ -18,6 +19,7 @@ public class Main {
 		JDialogHistoria ventanaLore = new JDialogHistoria();
 		JFrameMenuPrincipal ventanMenu = new JFrameMenuPrincipal();
 		//JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
+		JFramePantallaInicio ventanaInicio = new JFramePantallaInicio();
 	}
 
 }
