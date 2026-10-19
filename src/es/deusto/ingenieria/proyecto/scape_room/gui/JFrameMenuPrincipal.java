@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -27,16 +28,18 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputListener;
 
+import es.deusto.ingenieria.proyecto.scape_room.domain.Dificultad;
+import es.deusto.ingenieria.proyecto.scape_room.domain.Partida;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonMenu;
 
 public class JFrameMenuPrincipal extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel titulo;
-	private JButton bContinuarPartida;
-	private JButton bNuevaPartida;
+	private JButton bJugar;
 	private JButton bHistorialPartidas;
 	private JButton bSalir;
+	private JButton bAyuda;
 	private JButton bConfiguracion;
 	private JPanel panelDerecho;
 	private JPanel panelTitulo;
@@ -48,6 +51,12 @@ public class JFrameMenuPrincipal extends JFrame{
 	private ImageIcon imagenConfigSel = new ImageIcon("images/menu_opciones_juego/config_escalada_sin_fondo.png");
 	
 	public JFrameMenuPrincipal() {
+		crearComponentes();
+		eventosDeBoton();
+		configurarVentana();
+	}
+	
+	private void crearComponentes() {
 		//CREACIÓN DE LOS PANELES 
 		panelDerecho = new JPanel(new BorderLayout());
 		panelDerecho.setOpaque(false);
@@ -71,10 +80,10 @@ public class JFrameMenuPrincipal extends JFrame{
 		titulo.setHorizontalAlignment(JLabel.CENTER);
 	
 		//-----Botones-----	
-		bContinuarPartida = new JBotonMenu("CONTINUAR");
-		bNuevaPartida = new JBotonMenu("NUEVA PARTIDA");
+		bJugar = new JBotonMenu("JUGAR");
 		bHistorialPartidas = new JBotonMenu("HISTORIAL");
 		bSalir = new JBotonMenu("SALIR");
+		bAyuda = new JBotonMenu("AYUDA");
 		
 		bConfiguracion = new JButton();
 		bConfiguracion.setIcon(imagenConfig);
@@ -84,21 +93,21 @@ public class JFrameMenuPrincipal extends JFrame{
 		bConfiguracion.setPreferredSize(new Dimension(69,70));
 		bConfiguracion.setToolTipText("Configuración");
 		
-		eventosDeBoton();
-		
 		//-------Añadir los componentes a su panel------
 		panelTitulo.add(titulo);
 		
-		panelBotones.add(bContinuarPartida);
-		panelBotones.add(bNuevaPartida);
+		panelBotones.add(bJugar);
 		panelBotones.add(bHistorialPartidas);
+		panelBotones.add(bAyuda);
 		panelBotones.add(bSalir);
 		
 		panelDerecho.add(panelBotones, BorderLayout.CENTER);
 		panelDerecho.add(panelTitulo, BorderLayout.NORTH);
 		
 		panelFooter.add(bConfiguracion);
-		
+	}
+	
+	private void configurarVentana() {
 		//------Configuración de la ventana general -------
 		JLabel imagenFondo = new JLabel();
 		imagenFondo.setIcon(new ImageIcon("images/menu_opciones_juego/fondo_menu_principal.png"));
@@ -114,7 +123,6 @@ public class JFrameMenuPrincipal extends JFrame{
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setVisible(true);
 	}
-	
 	private void eventosDeBoton() {
 		bSalir.addMouseListener(new MouseAdapter() {
 			@Override
@@ -141,6 +149,22 @@ public class JFrameMenuPrincipal extends JFrame{
 				bConfiguracion.setIcon(imagenConfig);
 			}
 			
+		});
+		
+		bJugar.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Para prbar que funciona
+				ArrayList<Partida> partidasPrueba = new ArrayList<Partida>();
+				partidasPrueba.add(new Partida("Naroa", false, Dificultad.FACIL));
+				partidasPrueba.add(new Partida("Aitor", true, Dificultad.NORMAL));
+				partidasPrueba.add(new Partida("Leire", false, Dificultad.DIFICIL));
+				partidasPrueba.add(new Partida("Unai", true, Dificultad.NORMAL));
+				
+				JFrame jugar = new JFrameCrearCargarpartida(partidasPrueba);
+				JFrameMenuPrincipal.this.dispose();
+					
+			}
 		});
 		
 		
