@@ -17,7 +17,7 @@ public class JBotonLore extends JButton{
 	private final ImageIcon IMAGEN_BOTON_ORI = new ImageIcon("images/menu_opciones_juego/boton_no_seleccionado.png");
 	private final ImageIcon IMAGEN_BOTON_SEL_ORI = new ImageIcon("images/menu_opciones_juego/boton_seleccionado.png");
 
-	private final Dimension tamañoBoton = new Dimension(150, 40);
+	private final Dimension tamañoBoton = new Dimension(100, 40);
 	
 	private final Font FUENTE = new Font("Bahnschrift", Font.BOLD, 14);
 	
@@ -55,7 +55,7 @@ public class JBotonLore extends JButton{
 		Image botonImgEscalada = IMAGEN_BOTON_ORI.getImage().getScaledInstance(150, 60, Image.SCALE_SMOOTH);
 		imagenBoton = new ImageIcon(botonImgEscalada);
 		
-		Image botonImgEscaladaSel = IMAGEN_BOTON_SEL_ORI.getImage().getScaledInstance(110, 50, Image.SCALE_SMOOTH);
+		Image botonImgEscaladaSel = IMAGEN_BOTON_SEL_ORI.getImage().getScaledInstance(112, 50, Image.SCALE_SMOOTH);
 		imagenBotonSel = new ImageIcon(botonImgEscaladaSel);
 		
 	}

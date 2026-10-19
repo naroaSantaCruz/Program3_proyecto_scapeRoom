@@ -21,7 +21,7 @@ public class BordeVentana extends AbstractBorder{
 
     @Override
     public Insets getBorderInsets(Component c) {
-        return new Insets(45, 30, 45, 30);
+        return new Insets(25, 25, 25, 25);
     }
 
 }

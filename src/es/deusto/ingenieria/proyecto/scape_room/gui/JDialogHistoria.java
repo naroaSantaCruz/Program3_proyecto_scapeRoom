@@ -9,9 +9,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.BordePanelesMenu;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.BordeVentana;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonLore;
 
 public class JDialogHistoria extends JDialog{
@@ -31,7 +35,7 @@ public class JDialogHistoria extends JDialog{
 	};
 	private int textoActual = 0;
 	private JPanel textoFlotante;
-	private JTextArea info;
+	private JLabel info;
 	private JButton bAnterior;
 	private JButton bContinuar;
 	private JPanel panelBotones;
@@ -44,28 +48,29 @@ public class JDialogHistoria extends JDialog{
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setModal(true); //hace que mientras salga esta pantalla las demas esten bloqueadas
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Crear ventana
 		textoFlotante = new JPanel(new BorderLayout());
-		textoFlotante.setBackground(Color.BLACK);
-		
-		textoFlotante.setBorder(BorderFactory.createEmptyBorder(60,10,10,10));
+		textoFlotante.setBackground(new Color(12,15,48));
+		textoFlotante.setBorder(new BordeVentana());
 		
 		//Añadir texto al centro de la ventana
-		info = new JTextArea();
-		info.setText(textoLore[textoActual]);
-		info.setFont(new Font("Consolas", Font.PLAIN, 15));
-		info.setBackground(Color.BLACK);
+		info = new JLabel();
+		info.setText("<html><center>" + textoLore[textoActual] + "</center></html>");
+		info.setFont(new Font("Consolas", Font.PLAIN, 17));
 		info.setForeground(Color.WHITE);
-		info.setEditable(false);
-		info.setLineWrap(true);
-		info.setWrapStyleWord(true);
-		info.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+		info.setHorizontalAlignment(SwingConstants.CENTER);
+		info.setVerticalAlignment(SwingConstants.CENTER);
+		info.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+
 		textoFlotante.add(info, BorderLayout.CENTER);
 		
 		//Añadir botones
 		bAnterior = new JBotonLore("anterior");
 		bContinuar = new JBotonLore("continuar");
+		bAnterior.setVisible(false);
 		
 		panelBotones = new JPanel(new BorderLayout());
 		panelBotones.add(bAnterior, BorderLayout.WEST);
@@ -90,9 +95,10 @@ public class JDialogHistoria extends JDialog{
 			public void mouseClicked(MouseEvent e) {
 				if(textoActual>0) {
 					textoActual--;
-					info.setText(textoLore[textoActual]);
+					info.setText("<html><center>" + textoLore[textoActual] + "</center></html>");
 					bContinuar.setText("continuar");
-				}
+					if(textoActual==0) bAnterior.setVisible(false);
+				} 
 				
 			}
 		
@@ -102,12 +108,13 @@ public class JDialogHistoria extends JDialog{
 		bContinuar.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
 				if(bContinuar.getText().equals("START")) {
 					JDialogHistoria.this.dispose();
 				} else if(textoActual < textoLore.length-1) {
 					textoActual++;
-					info.setText(textoLore[textoActual]);
+					info.setText("<html><center>" + textoLore[textoActual] + "</center></html>");
+					bAnterior.setVisible(true);
 					
 					if(textoActual == textoLore.length-1) {
 						bContinuar.setText("START");
