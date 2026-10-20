@@ -400,8 +400,7 @@ public class JFrameEscritorio extends JFrame{
 		
 		//action listener para que vaya a el jframe
 		terminal.addActionListener(e -> {
-			//new JFrameTerminal();
-			System.out.println("Abrir terminal");
+			new JFrameTerminal();
 		});
 		
 		//EXPLORADOR ARCHIVOS
