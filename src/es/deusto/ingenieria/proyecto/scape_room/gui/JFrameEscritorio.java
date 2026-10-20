@@ -44,6 +44,10 @@ public class JFrameEscritorio extends JFrame{
 		// Componentes de la barra
 		private JButton bInicio;
 		private JTextField barraBusqueda;
+		private JPanel panelPendrive;
+		private JLabel lblPendrive;
+		private JLabel lblSinDispositivos;
+		private JButton bPendrive;
 		private JButton bFlecha;
 		private JLabel reloj;
 		private Timer timer;
@@ -54,6 +58,7 @@ public class JFrameEscritorio extends JFrame{
 		private JButton bReiniciar;
 		private JButton bSuspender;
 		private JButton bCerrarSesion;
+		
 
 	
 	public JFrameEscritorio() {
@@ -61,8 +66,10 @@ public class JFrameEscritorio extends JFrame{
 		crearFondo();
 		crearBarraAbajo();
 		crearMenuInicio();
+		crearPanelPendrive();
 		eventosBoton();
 		configurarVentana();
+		
 	}
 
 	
@@ -95,6 +102,15 @@ public class JFrameEscritorio extends JFrame{
 		explorador_archivos.setBounds(20, 110, 90, 80); // 90 px más abajo que la papelera (que está en y=20)
 		imagenFondo.add(explorador_archivos);
 		
+		
+		Image imChat = new ImageIcon("images/escritorio/chat.png").getImage()
+				.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+		chat=new JLabel("Chat",new ImageIcon(imChat), SwingConstants.CENTER);
+		chat.setHorizontalTextPosition(SwingConstants.CENTER);
+		chat.setVerticalTextPosition(SwingConstants.BOTTOM);
+		chat.setForeground(Color.WHITE);
+		chat.setBounds(20, 200, 90, 80); // 90 px más abajo que el explorador de archivos (que está en y=110)
+		imagenFondo.add(chat);
 
 		
 	}
@@ -150,7 +166,9 @@ public class JFrameEscritorio extends JFrame{
 		panelDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 5));
 		panelDerecha.setOpaque(false);
 		
-		bFlecha = new JButton("^"); //hacer algo con pendrive-->abrir menu, expulsar pendrive
+		Image imFlecha = new ImageIcon("images/escritorio/flechaPendrive.png").getImage()
+		        .getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		bFlecha = new JButton(new ImageIcon(imFlecha));
 		bFlecha.setFocusPainted(false);
 		bFlecha.setContentAreaFilled(false);
 		bFlecha.setBorderPainted(false);
@@ -209,6 +227,28 @@ public class JFrameEscritorio extends JFrame{
 		imagenFondo.add(menuDesplegable, 0);
 		
 	}
+	
+	
+	private void crearPanelPendrive() {
+	    panelPendrive = new JPanel(new BorderLayout());
+	    panelPendrive.setBackground(new Color(240,240,240));
+	    panelPendrive.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	    panelPendrive.setVisible(false);
+
+	    Image imPendrive = new ImageIcon("images/escritorio/pendrive.png").getImage()
+	            .getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+	    lblPendrive = new JLabel(" Pendrive", new ImageIcon(imPendrive), SwingConstants.LEFT);
+	    lblPendrive.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+	    bPendrive = new JBotonInicio("Extraer pendrive");
+	    bPendrive.setVisible(false); // aparece al pulsar el pendrive
+
+	    panelPendrive.add(lblPendrive, BorderLayout.NORTH);
+	    panelPendrive.add(bPendrive, BorderLayout.CENTER);
+
+	    imagenFondo.add(panelPendrive, 0);
+	}
+	
 	
 	// ----------------------------
 	// EVENTOS
@@ -279,11 +319,37 @@ public class JFrameEscritorio extends JFrame{
 		
 		// FLECHA PENDRIVE
 		
-		bFlecha.addActionListener(ev -> {
-			System.out.println("Flecha pulsada");
-			// TODO pendrives
-	});
-		
+		bFlecha.addActionListener(e -> {
+		    if (panelPendrive.isVisible()) {
+		        panelPendrive.setVisible(false);
+		    } else {
+		        panelPendrive.setBounds(imagenFondo.getWidth() - 220, imagenFondo.getHeight() - 90, 200, 80);
+		        panelPendrive.setVisible(true);
+		    }
+		});
+
+		// Al pulsar el pendrive, aparece "Extraer pendrive"
+		lblPendrive.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        bPendrive.setVisible(true);
+		        panelPendrive.revalidate();
+		    }
+		});
+
+		// Al pulsar "Extraer pendrive": desaparece el pendrive
+		bPendrive.addActionListener(e -> {
+		    panelPendrive.removeAll();
+
+		    lblSinDispositivos = new JLabel("No hay dispositivos", SwingConstants.CENTER);
+		    lblSinDispositivos.setForeground(Color.GRAY);
+		    panelPendrive.add(lblSinDispositivos, BorderLayout.CENTER);
+
+		    panelPendrive.revalidate();
+		    panelPendrive.repaint();
+
+		    // TODO: marcar en la partida que el pendrive ya no está insertado
+		});
 		
 		//OPCIONES MENÚ INICIO
 		
@@ -356,7 +422,29 @@ public class JFrameEscritorio extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { // doble clic, como en Windows
 					System.out.println("Explorador de archivos abierta");
-					// aquí abrirás la ventana de la papelera
+					// aquí abrirás la ventana del explorador de archivos
+				}
+			}
+		});
+		
+		chat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// efecto de "seleccionado" al pasar por encima
+				chat.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 150)));
+			
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				chat.setBorder(null);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) { // doble clic, como en Windows
+					System.out.println("Chat abierto");
+					// aquí abrirás la ventana de el chat
 				}
 			}
 		});
