@@ -57,7 +57,7 @@ public class JDialogVirus extends JDialog{
 		panelBarratexto.add(barraDescarga);
 		panelBarratexto.setOpaque(false);
 		panelBarratexto.setBorder(BorderFactory.createEmptyBorder(20, 10, 50, 10));
-		Timer timer = new Timer(100, null);
+		Timer timer = new Timer(130, null);
 		
 		timer.addActionListener(e ->{
 			if (barraDescarga.getValue()<100) {
