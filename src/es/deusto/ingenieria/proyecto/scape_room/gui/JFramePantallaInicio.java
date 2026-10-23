@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -87,6 +88,8 @@ public class JFramePantallaInicio extends JFrame {
 		gbc.gridy = 3;
 		gbc.insets = new Insets(0, 0, 0, 0);
 		panelCentral.add(contraTexto, gbc);
+		usuarioTexto.addActionListener(e -> validarYEntrar());
+	    contraTexto.addActionListener(e -> validarYEntrar());
 		
 		
 		// CONFIGURACIÓN DEL FOOTER
@@ -204,6 +207,24 @@ public class JFramePantallaInicio extends JFrame {
 	        }
 	    });
 		return contra;
+	}
+	
+	public void validarYEntrar() {
+		String usuarioIngresado = usuarioTexto.getText().trim();
+	    char[] contraChars = contraTexto.getPassword();
+	    String contraIngresada = new String(contraChars);
+	    if (usuarioIngresado.isEmpty() || contraIngresada.length() == 0) {
+	        JOptionPane.showMessageDialog(this, "Introduce valores en los campos del usuario y la contraseña",
+	        		"Campos incompletos",JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    if (usuarioIngresado.equals("user") && contraIngresada.equals("password")) {
+	        this.dispose(); 
+	        JFrameEscritorio escritorio = new JFrameEscritorio();
+	        
+	    } else {
+	        JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 	
 	public static void main(String[] args) {
