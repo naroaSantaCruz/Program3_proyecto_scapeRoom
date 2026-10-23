@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -32,7 +34,7 @@ public class JFramePantallaInicio extends JFrame {
 	private JLabel fondo;
 	private ImageIcon imagenWindows = new ImageIcon("images/pantalla_inicio/fondo_inicio_windows.jpg");
 	private Image imagenEscalada;
-	private ImageIcon imagenUsuario = new ImageIcon("images/pantalla_inicio/icono_inicio_usuario.png");
+	private ImageIcon imagenUsuario = new ImageIcon("images/pantalla_inicio/circulo-de-usuarios.png");
 	private JPanel panelCentral;
 	private JLabel iconoUsuario;
 	private JTextField usuarioTexto;
@@ -42,7 +44,11 @@ public class JFramePantallaInicio extends JFrame {
 	private JPanel botonesApagadoPanel;
 	private JLabel otrosUsuarios;
 	private JButton botonApagado;
-	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton_apagado.png");
+	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton-de-encendido (1).png");
+	private JButton botonApagar;
+	private JButton botonReiniciar;
+	private JButton botonSuspender;
+	private JPanel menuDesplegable;
 	
 	public JFramePantallaInicio() {
 		
@@ -75,7 +81,8 @@ public class JFramePantallaInicio extends JFrame {
 		gbc.fill = GridBagConstraints.NONE;
 		
 		iconoUsuario = new JLabel();
-		iconoUsuario.setIcon(imagenUsuario);
+		Image imagenUsuarioEscalada = imagenUsuario.getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH);
+		iconoUsuario.setIcon(new ImageIcon(imagenUsuarioEscalada));
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0, 0, 15, 0);
 		panelCentral.add(iconoUsuario, gbc);
@@ -93,7 +100,7 @@ public class JFramePantallaInicio extends JFrame {
 		
 		
 		// CONFIGURACIÓN DEL FOOTER
-		footer = new JPanel(new GridLayout(1,2));
+		footer = new JPanel(new BorderLayout());
 		footer.setOpaque(false);
 		
 		otrosUsuariosPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -107,9 +114,9 @@ public class JFramePantallaInicio extends JFrame {
 		otrosUsuarios.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 		otrosUsuarios.setIconTextGap(10);
 		otrosUsuariosPanel.add(otrosUsuarios);
-		footer.add(otrosUsuariosPanel);
+		footer.add(otrosUsuariosPanel, BorderLayout.WEST);
 		
-		botonesApagadoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		botonesApagadoPanel = new JPanel(new BorderLayout());
 		botonesApagadoPanel.setOpaque(false);
 		botonApagado = new JButton();
 		botonApagado.setContentAreaFilled(false);
@@ -117,9 +124,23 @@ public class JFramePantallaInicio extends JFrame {
 		botonApagado.setBorder(null);
 		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		botonApagado.setIcon(new ImageIcon(imagenPeque2));
-		botonesApagadoPanel.add(botonApagado);
-		footer.add(botonesApagadoPanel);
+		botonApagado.setBorder(new EmptyBorder(10, 10, 10, 10));
+		botonesApagadoPanel.add(botonApagado, BorderLayout.SOUTH);
+		footer.add(botonesApagadoPanel, BorderLayout.EAST);
 		
+		menuDesplegable = new JPanel(new GridLayout(3,1));
+		botonApagar = new JButton("Apagar");
+		botonReiniciar = new JButton("Reiniciar");
+		botonSuspender = new JButton("Suspender");
+		menuDesplegable.add(botonApagar);
+		menuDesplegable.add(botonReiniciar);
+		menuDesplegable.add(botonSuspender);
+		menuDesplegable.setVisible(false);
+		botonesApagadoPanel.add(menuDesplegable, BorderLayout.EAST);
+		botonApagado.addActionListener(e -> {
+			boolean estadoActual = menuDesplegable.isVisible();
+		    menuDesplegable.setVisible(!estadoActual);
+		});
 		
 		// AÑADIR AMBOS PANELES AL FONDO
 		fondo.add(panelCentral, BorderLayout.CENTER);
@@ -219,8 +240,8 @@ public class JFramePantallaInicio extends JFrame {
 	        return;
 	    }
 	    if (usuarioIngresado.equals("user") && contraIngresada.equals("password")) {
-	        this.dispose(); 
 	        JFrameEscritorio escritorio = new JFrameEscritorio();
+	        this.dispose();
 	        
 	    } else {
 	        JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
