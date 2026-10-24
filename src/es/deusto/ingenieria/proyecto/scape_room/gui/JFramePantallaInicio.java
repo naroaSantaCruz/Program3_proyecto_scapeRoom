@@ -1,29 +1,33 @@
 package es.deusto.ingenieria.proyecto.scape_room.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class JFramePantallaInicio extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel fondo;
 	private ImageIcon imagenWindows = new ImageIcon("images/pantalla_inicio/fondo_inicio_windows.jpg");
@@ -32,14 +36,17 @@ public class JFramePantallaInicio extends JFrame {
 	private JPanel panelCentral;
 	private JLabel iconoUsuario;
 	private JTextField usuarioTexto;
-	private JTextField contraTexto;
+	private JPasswordField contraTexto;
 	private JPanel footer;
 	private JPanel otrosUsuariosPanel;
 	private JPanel botonesApagadoPanel;
 	private JLabel otrosUsuarios;
-	private JLabel botonesApagado;
+	private JButton botonApagado;
+	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton_apagado.png");
 	
 	public JFramePantallaInicio() {
+		
+		// CONFIGURACIÓN DEL FONDO
 		this.setTitle("Pantalla Inicio");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -56,9 +63,10 @@ public class JFramePantallaInicio extends JFrame {
 		
 		fondo = new JLabel(new ImageIcon(imagenEscalada));
 		this.setContentPane(fondo);
-		
 		fondo.setLayout(new BorderLayout());
 		
+		
+		// CONFIGURACIÓN DEL PANEL CENTRAL
 		panelCentral = new JPanel(new GridBagLayout());
 		panelCentral.setOpaque(false);
 		
@@ -72,36 +80,155 @@ public class JFramePantallaInicio extends JFrame {
 		gbc.insets = new Insets(0, 0, 15, 0);
 		panelCentral.add(iconoUsuario, gbc);
 		
-		usuarioTexto = new JTextField("User name");
-		usuarioTexto.setHorizontalAlignment(SwingConstants.CENTER);
-		usuarioTexto.setPreferredSize(new Dimension(250, 35));
+		usuarioTexto = crearCampoTextoUsuario();
 		gbc.gridy = 2;
 		gbc.insets = new Insets(0, 0, 8, 0);
 		panelCentral.add(usuarioTexto, gbc);
-		contraTexto = new JTextField("Password");
-		contraTexto.setHorizontalAlignment(SwingConstants.CENTER);
-		contraTexto.setPreferredSize(new Dimension(250, 35));
+		contraTexto = crearCampoContrasena();
 		gbc.gridy = 3;
 		gbc.insets = new Insets(0, 0, 0, 0);
 		panelCentral.add(contraTexto, gbc);
+		usuarioTexto.addActionListener(e -> validarYEntrar());
+	    contraTexto.addActionListener(e -> validarYEntrar());
 		
 		
+		// CONFIGURACIÓN DEL FOOTER
 		footer = new JPanel(new GridLayout(1,2));
 		footer.setOpaque(false);
+		
 		otrosUsuariosPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		otrosUsuariosPanel.setOpaque(false);
 		otrosUsuarios = new JLabel();
 		Image imagenPeque = imagenUsuario.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		otrosUsuarios.setIcon(new ImageIcon(imagenPeque));
+		otrosUsuarios.setText("User");
+		otrosUsuarios.setForeground(Color.WHITE);
+		otrosUsuarios.setFont(new Font("Arial", Font.BOLD, 20));
+		otrosUsuarios.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+		otrosUsuarios.setIconTextGap(10);
 		otrosUsuariosPanel.add(otrosUsuarios);
 		footer.add(otrosUsuariosPanel);
 		
+		botonesApagadoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		botonesApagadoPanel.setOpaque(false);
+		botonApagado = new JButton();
+		botonApagado.setContentAreaFilled(false);
+		botonApagado.setBorderPainted(false);
+		botonApagado.setBorder(null);
+		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
+		botonApagado.setIcon(new ImageIcon(imagenPeque2));
+		botonesApagadoPanel.add(botonApagado);
+		footer.add(botonesApagadoPanel);
 		
 		
+		// AÑADIR AMBOS PANELES AL FONDO
 		fondo.add(panelCentral, BorderLayout.CENTER);
 		fondo.add(footer, BorderLayout.SOUTH);
-		
 		this.setVisible(true);
+	}
+	
+	public JTextField crearCampoTextoUsuario() {
+		JTextField campoUsuario = new JTextField();
+		campoUsuario.setPreferredSize(new Dimension(250, 35));
+		campoUsuario.setLayout(new BorderLayout());
+		JLabel textoFondo = new JLabel("User name");
+		campoUsuario.setFont(textoFondo.getFont());
+		textoFondo.setForeground(Color.GRAY);
+		textoFondo.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+		campoUsuario.add(textoFondo,BorderLayout.CENTER);
+		campoUsuario.getDocument().addDocumentListener( new DocumentListener() {
+			/**
+			 * Compruba si el texto dónde escribir el usuario está "vacio" o no se ha editado. Si está vació devuelve el texto
+			 * predeterminado del texto de fondo (hace visible ese JLabel), si en el campo de texto se ha escrito algo se oculta
+			 * el JLabel del texto de fondo y se visualiza el texto que esté escribiendo el usuario.
+			 */
+			public void comprobarSiTextoVacio() {
+				textoFondo.setVisible(campoUsuario.getText().isEmpty());
+			}
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+		});
+		textoFondo.addMouseListener(new MouseAdapter() {
+			@Override
+		    public void mouseClicked(MouseEvent e) {
+		        campoUsuario.requestFocusInWindow();
+		    }
+		});
+		return campoUsuario;
+	}
+	
+	public JPasswordField crearCampoContrasena() {
+		JPasswordField contra = new JPasswordField();
+		contra.setPreferredSize(new Dimension(250, 35));
+	    contra.setLayout(new BorderLayout());
+	    JLabel textoFondo = new JLabel("Password");
+	    contra.setFont(textoFondo.getFont());
+	    textoFondo.setForeground(Color.GRAY);
+	    textoFondo.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+	    contra.add(textoFondo,BorderLayout.CENTER);
+	    contra.getDocument().addDocumentListener(new DocumentListener() {
+	    	private void comprobarSiTextoVacio() {
+	            // Se usa getPassword().length == 0 para saber si está vacío
+	            boolean estaVacio = contra.getPassword().length == 0;
+	            textoFondo.setVisible(estaVacio);
+	        }
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				comprobarSiTextoVacio();
+			}
+		});
+	    textoFondo.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            contra.requestFocusInWindow();
+	        }
+	    });
+		return contra;
+	}
+	
+	public void validarYEntrar() {
+		String usuarioIngresado = usuarioTexto.getText().trim();
+	    char[] contraChars = contraTexto.getPassword();
+	    String contraIngresada = new String(contraChars);
+	    if (usuarioIngresado.isEmpty() || contraIngresada.length() == 0) {
+	        JOptionPane.showMessageDialog(this, "Introduce valores en los campos del usuario y la contraseña",
+	        		"Campos incompletos",JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    if (usuarioIngresado.equals("user") && contraIngresada.equals("password")) {
+	        this.dispose(); 
+	        JFrameEscritorio escritorio = new JFrameEscritorio();
+	        
+	    } else {
+	        JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+	
+	public static void main(String[] args) {
+		JFramePantallaInicio ventanaInicio = new JFramePantallaInicio();
 	}
 
 }

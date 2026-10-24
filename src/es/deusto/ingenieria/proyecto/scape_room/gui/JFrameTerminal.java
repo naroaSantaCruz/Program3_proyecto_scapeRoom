@@ -20,7 +20,8 @@ public class JFrameTerminal extends JFrame{
 	private static final Font fuente=new Font("Consolas", Font.PLAIN, 15);
 	
 	//comandos
-	private static final String[] COMANDOS = { "help", "cl", "exit" };
+	private static final String[] COMANDOS = { "help", "cl", "ls","ls -a","cd","pwd","cat",
+			"grep","find","chmod +r","cp"};
 	
 	private JTextArea salida;
 	private JTextField entrada;
@@ -98,8 +99,6 @@ public class JFrameTerminal extends JFrame{
 		} else if (comando.equals("cl")) {
 			salida.setText("");
 			mostrarMensajeInicial();
-		} else if (comando.equals("exit")) {
-			this.dispose();
 		}
 		// TODO: aquí irán los comandos que llevan a conseguir el fichero
 		else {
@@ -116,5 +115,8 @@ public class JFrameTerminal extends JFrame{
 		this.setVisible(true);
 		entrada.requestFocusInWindow();
 	}
+	
+	
+
 
 }
