@@ -24,12 +24,12 @@ public class JDialogHistoria extends JDialog{
 			"Bienvenido, Agente.",
 			"Como bien sabe, trabaja para el Servicio de Inteligecia Secreta (SIS) de su país, Basgiath.",
 			"Hoy es un día complicado para usted, ya que es el encargado de investigar el asesinato de su "
-			+ "compañero, Liam.",
+			+ "compañera, Lia.",
 			"Desde hace varias semanas ha trabajado con el en una investigación confidencial sobre la"
 			+ " mafia Fjerdana, y sus negocios.",
-			"¿Puede que Liam se pasara de la ralla investigando y por eso lo mataron?",
+			"¿Puede que Lia se pasara de la ralla investigando y por eso la mataron?",
 			"Eso es lo que debe averiguar.",
-			"Analice bien el ordenador de su compañero, descubrá la verdad y entrege a su jefe"
+			"Analice bien el ordenador de su compañera, descubrá la verdad y entrege a su jefe"
 			+ " los documentos que vea relevantes sobre esta investigación.",
 			"Tenga cuidado, puede que su vida también peligre."
 	};
@@ -46,13 +46,14 @@ public class JDialogHistoria extends JDialog{
 		setTitle("SIS");
 		setSize(450,250);
 		setLocationRelativeTo(null);
+		setBackground(new Color(0,0,0,0));
 		setResizable(false);
 		setModal(true); //hace que mientras salga esta pantalla las demas esten bloqueadas
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		//Crear ventana
 		textoFlotante = new JPanel(new BorderLayout());
-		textoFlotante.setBackground(new Color(12,15,48));
+		textoFlotante.setOpaque(false);
 		textoFlotante.setBorder(new BordeVentana());
 		
 		//Añadir texto al centro de la ventana

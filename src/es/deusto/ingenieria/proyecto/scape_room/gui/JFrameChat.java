@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class JFrameChat extends JFrame{
@@ -23,15 +25,22 @@ public class JFrameChat extends JFrame{
 	private JPanel conversacion; //panel tipo scroll con mensajes
 	private JPanel mensaje; //JPanelMensaje
 	private JPanel usu; //foto y nombre del usuario
+	private JPanel escribir; //barra de escribir
 	
 	private JLabel fotoPerfil;
 	private JLabel fondoChat;
 	private JLabel informacionChat;
 	private JLabel nombreUsu;
+	private JLabel emoji;
+	private JLabel chatBloqueado;
 	
 	private ImageIcon imagenOriPerfil = new ImageIcon("images/chat_fjerda/fotoPerfilCuervo.png");
-	private Image imagenRedimensionada = imagenOriPerfil.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-	private ImageIcon imagenPerfil = new ImageIcon(imagenRedimensionada);
+	private Image imagenRedimensionadaPerfil = imagenOriPerfil.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+	private ImageIcon imagenPerfil = new ImageIcon(imagenRedimensionadaPerfil);
+	
+	private ImageIcon imagenOriEmoji = new ImageIcon("images/chat_fjerda/simboloEmojis.png");
+	private Image imagenReEmoji = imagenOriEmoji.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+	private ImageIcon imagenEmoji = new ImageIcon(imagenReEmoji);
 	
 
 	public JFrameChat() {
@@ -76,10 +85,41 @@ public class JFrameChat extends JFrame{
 		
 		infoChat.add(informacionChat);
 		
+		//panel del chat
+		chat = new JPanel(new BorderLayout());
+		
+		conversacion = new JPanel();
+		
+		//barra escribir
+		escribir = new JPanel(new BorderLayout());
+		escribir.setBackground(Color.WHITE);
+		escribir.setPreferredSize(new Dimension(1000, 45));
+		escribir.setBorder(new EmptyBorder(10,0,10,60));
+		
+		emoji = new JLabel();
+		emoji.setIcon(imagenEmoji);
+		emoji.setBorder(new EmptyBorder(10,20,10,60));
+		
+		chatBloqueado = new JLabel("GhostKorp_Fj te ha bloqueado");
+		chatBloqueado.setForeground(Color.BLACK);
+		chatBloqueado.setFont(new Font("chat", Font.TRUETYPE_FONT, 13));
+		chatBloqueado.setBackground(Color.LIGHT_GRAY);
+		chatBloqueado.setOpaque(true);
+		chatBloqueado.setPreferredSize(new Dimension(600, 20));
+		chatBloqueado.setBorder(new LineBorder(Color.DARK_GRAY, 1));
+		chatBloqueado.setHorizontalAlignment(SwingConstants.CENTER);
+		chatBloqueado.setVerticalAlignment(SwingConstants.CENTER);
+		
+		escribir.add(emoji, BorderLayout.WEST);
+		escribir.add(chatBloqueado, BorderLayout.CENTER);
+		
+		chat.add(escribir, BorderLayout.SOUTH);
+		chat.add(conversacion, BorderLayout.CENTER);
 		
 		//añadir elementos al panel principal
 		chatApp.add(listaChats,BorderLayout.WEST);
 		chatApp.add(infoChat, BorderLayout.NORTH);
+		chatApp.add(chat, BorderLayout.CENTER);
 		
 		this.add(chatApp);
 		
