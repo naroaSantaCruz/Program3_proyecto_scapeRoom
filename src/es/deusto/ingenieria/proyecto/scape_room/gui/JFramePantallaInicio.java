@@ -2,7 +2,6 @@ package es.deusto.ingenieria.proyecto.scape_room.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,16 +15,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -54,6 +52,9 @@ public class JFramePantallaInicio extends JFrame {
 	private JPanel panelDerecha;
 	private JPanel panelVacioDerecha;
 	private JPanel panelVacioIzquierda;
+	private ImageIcon imagenVentanaTexto = new ImageIcon("images/pantalla_inicio/maximizar.png");
+	private JButton botonVentana;
+	private JDialogTextoInicio ventanaTextoInicio;
 	
 	public JFramePantallaInicio() {
 		
@@ -103,6 +104,8 @@ public class JFramePantallaInicio extends JFrame {
 		usuarioTexto.addActionListener(e -> validarYEntrar());
 	    contraTexto.addActionListener(e -> validarYEntrar());
 		
+	    
+	    // CONFIGURACIÓN MENÚ DESPLEGABLE CON OPCIONES APAGAR...
 	    menuDesplegable = new JPanel();
 	    menuDesplegable.setLayout(new GridLayout(3,1));
 	    menuDesplegable.add(botonApagar);
@@ -135,10 +138,9 @@ public class JFramePantallaInicio extends JFrame {
 	    panelVacioIzquierda = new JPanel();
 	    panelVacioIzquierda.setOpaque(false);
 	    panelVacioIzquierda.setPreferredSize(menuDesplegable.getPreferredSize());
-	    fondo.add(panelVacioIzquierda,BorderLayout.WEST);
-	    fondo.add(panelDerecha,BorderLayout.EAST);
 	    menuDesplegable.setVisible(false);
 		
+	    
 		// CONFIGURACIÓN DEL FOOTER
 		footer = new JPanel(new BorderLayout());
 		footer.setOpaque(false);
@@ -165,14 +167,27 @@ public class JFramePantallaInicio extends JFrame {
 		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		botonApagado.setIcon(new ImageIcon(imagenPeque2));
 		botonApagado.setBorder(new EmptyBorder(10, 10, 10, 10));
-		botonesApagadoPanel.add(botonApagado);
+		
 		footer.add(botonesApagadoPanel, BorderLayout.EAST);
 		botonApagado.addActionListener(e -> {
 			menuDesplegable.setVisible(!menuDesplegable.isVisible());
 		});
-
 		
-		// AÑADIR AMBOS PANELES AL FONDO
+		botonVentana = new JButton();
+		ventanaTextoInicio = new JDialogTextoInicio(this);
+		//ventanaTextoInicio.setVisible(true);
+		botonVentana.addActionListener(e -> {
+			ventanaTextoInicio.setVisible(!ventanaTextoInicio.isVisible());
+		});
+		Image imagenPeque3 = imagenVentanaTexto.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
+		botonVentana.setIcon(new ImageIcon(imagenPeque3));
+		botonesApagadoPanel.add(botonVentana);
+		botonesApagadoPanel.add(botonApagado);
+		
+		
+		// AÑADIR AMBOS PANELES CENTRALES, LATERALES Y FOOTER
+		fondo.add(panelVacioIzquierda,BorderLayout.WEST);
+	    fondo.add(panelDerecha,BorderLayout.EAST);
 		fondo.add(panelCentral, BorderLayout.CENTER);
 		fondo.add(footer, BorderLayout.SOUTH);
 		this.setUndecorated(true);
