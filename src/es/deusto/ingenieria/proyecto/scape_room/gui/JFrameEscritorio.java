@@ -279,7 +279,7 @@ public class JFrameEscritorio extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) { // doble clic, como en Windows
 				System.out.println("Papelera abierta");
-				// aquí abrirás la ventana de la papelera
+				new JFrameChat();
 			}
 		}
 	});
