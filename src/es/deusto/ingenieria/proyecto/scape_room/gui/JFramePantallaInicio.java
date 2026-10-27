@@ -2,6 +2,7 @@ package es.deusto.ingenieria.proyecto.scape_room.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -15,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,10 +47,13 @@ public class JFramePantallaInicio extends JFrame {
 	private JLabel otrosUsuarios;
 	private JButton botonApagado;
 	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton-de-encendido (1).png");
-	private JButton botonApagar;
-	private JButton botonReiniciar;
-	private JButton botonSuspender;
+	private JButton botonApagar = new JButton("Apagar");
+	private JButton botonReiniciar = new JButton("Reiniciar");
+	private JButton botonSuspender = new JButton("Suspender");
 	private JPanel menuDesplegable;
+	private JPanel panelDerecha;
+	private JPanel panelVacioDerecha;
+	private JPanel panelVacioIzquierda;
 	
 	public JFramePantallaInicio() {
 		
@@ -98,6 +103,41 @@ public class JFramePantallaInicio extends JFrame {
 		usuarioTexto.addActionListener(e -> validarYEntrar());
 	    contraTexto.addActionListener(e -> validarYEntrar());
 		
+	    menuDesplegable = new JPanel();
+	    menuDesplegable.setLayout(new GridLayout(3,1));
+	    menuDesplegable.add(botonApagar);
+	    menuDesplegable.add(botonReiniciar);
+	    menuDesplegable.add(botonSuspender);
+	    panelDerecha = new JPanel(new BorderLayout());
+	    panelDerecha.add(menuDesplegable,BorderLayout.SOUTH);
+	    menuDesplegable.setOpaque(false);
+	    panelDerecha.setOpaque(false);
+	    botonApagar.addActionListener(e -> {
+	    	int opcion = JOptionPane.showConfirmDialog(JFramePantallaInicio.this, "¿Quieres rendirte?",
+	    			"Apagar",JOptionPane.YES_NO_OPTION);
+	    	if ( opcion == JOptionPane.YES_OPTION ) {
+	    		new JFrameMenuPrincipal();
+	    		this.dispose();
+	    	}
+	    });
+	    botonReiniciar.addActionListener(e -> {
+	    	int opcion = JOptionPane.showConfirmDialog(JFramePantallaInicio.this, "¿Quieres reiniciar?",
+	    			"Reiniciar", JOptionPane.YES_NO_OPTION);
+	    	if ( opcion == JOptionPane.YES_OPTION ) {
+	    		new JFramePantallaInicio();
+	    		this.dispose();
+	    	}
+	    });
+	    panelVacioDerecha = new JPanel();
+	    panelVacioDerecha.setOpaque(false);
+	    panelVacioDerecha.setPreferredSize(menuDesplegable.getPreferredSize());
+	    panelDerecha.add(panelVacioDerecha, BorderLayout.CENTER);
+	    panelVacioIzquierda = new JPanel();
+	    panelVacioIzquierda.setOpaque(false);
+	    panelVacioIzquierda.setPreferredSize(menuDesplegable.getPreferredSize());
+	    fondo.add(panelVacioIzquierda,BorderLayout.WEST);
+	    fondo.add(panelDerecha,BorderLayout.EAST);
+	    menuDesplegable.setVisible(false);
 		
 		// CONFIGURACIÓN DEL FOOTER
 		footer = new JPanel(new BorderLayout());
@@ -116,7 +156,7 @@ public class JFramePantallaInicio extends JFrame {
 		otrosUsuariosPanel.add(otrosUsuarios);
 		footer.add(otrosUsuariosPanel, BorderLayout.WEST);
 		
-		botonesApagadoPanel = new JPanel(new BorderLayout());
+		botonesApagadoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		botonesApagadoPanel.setOpaque(false);
 		botonApagado = new JButton();
 		botonApagado.setContentAreaFilled(false);
@@ -125,26 +165,17 @@ public class JFramePantallaInicio extends JFrame {
 		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		botonApagado.setIcon(new ImageIcon(imagenPeque2));
 		botonApagado.setBorder(new EmptyBorder(10, 10, 10, 10));
-		botonesApagadoPanel.add(botonApagado, BorderLayout.SOUTH);
+		botonesApagadoPanel.add(botonApagado);
 		footer.add(botonesApagadoPanel, BorderLayout.EAST);
-		
-		menuDesplegable = new JPanel(new GridLayout(3,1));
-		botonApagar = new JButton("Apagar");
-		botonReiniciar = new JButton("Reiniciar");
-		botonSuspender = new JButton("Suspender");
-		menuDesplegable.add(botonApagar);
-		menuDesplegable.add(botonReiniciar);
-		menuDesplegable.add(botonSuspender);
-		menuDesplegable.setVisible(false);
-		botonesApagadoPanel.add(menuDesplegable, BorderLayout.EAST);
 		botonApagado.addActionListener(e -> {
-			boolean estadoActual = menuDesplegable.isVisible();
-		    menuDesplegable.setVisible(!estadoActual);
+			menuDesplegable.setVisible(!menuDesplegable.isVisible());
 		});
+
 		
 		// AÑADIR AMBOS PANELES AL FONDO
 		fondo.add(panelCentral, BorderLayout.CENTER);
 		fondo.add(footer, BorderLayout.SOUTH);
+		this.setUndecorated(true);
 		this.setVisible(true);
 	}
 	
