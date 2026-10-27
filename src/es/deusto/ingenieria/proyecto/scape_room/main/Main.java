@@ -18,11 +18,11 @@ public class Main {
 	public static void main(String[] args) {
 		//JFrameMenuPrincipal ventanMenu = new JFrameMenuPrincipal();
 		//JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
-		JDialogHistoria ventanaLore = new JDialogHistoria();
+		//JDialogHistoria ventanaLore = new JDialogHistoria();
 		//JFrameMenuPrincipal ventanMenu = new JFrameMenuPrincipal();
 		//JFrameEscritorio ventanaEscritorio = new JFrameEscritorio();
 		//JFramePantallaInicio ventanaInicio = new JFramePantallaInicio();
-		//JFrameChat ventanaChat = new JFrameChat();
+		JFrameChat ventanaChat = new JFrameChat();
 	}
 
 }
