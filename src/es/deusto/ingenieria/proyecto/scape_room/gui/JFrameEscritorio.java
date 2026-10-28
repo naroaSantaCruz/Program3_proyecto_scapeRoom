@@ -35,6 +35,7 @@ public class JFrameEscritorio extends JFrame{
 		private JPanel panelCentro;
 		private JPanel panelDerecha;
 		private JPanel menuDesplegable;
+		private JPanel panelAnag;
 
 		// Componentes del escritorio
 		private JLabel papelera;
@@ -69,6 +70,7 @@ public class JFrameEscritorio extends JFrame{
 		crearPanelPendrive();
 		eventosBoton();
 		configurarVentana();
+		crearPanelAnag();
 		JDialogVirus virus = new JDialogVirus();
 		//TODO usar hilos cuando sepamos
 		Timer timer = new Timer(500, e -> {virus.setVisible(true);});
@@ -253,6 +255,11 @@ public class JFrameEscritorio extends JFrame{
 	    imagenFondo.add(panelPendrive, 0);
 	}
 	
+	private void crearPanelAnag() {
+		panelAnag=new JPanelAnagrama();
+		imagenFondo.add(panelAnag,0);
+	}
+	
 	
 	// ----------------------------
 	// EVENTOS
@@ -279,7 +286,7 @@ public class JFrameEscritorio extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) { // doble clic, como en Windows
 				System.out.println("Papelera abierta");
-				new JFrameChat();
+				
 			}
 		}
 	});
@@ -303,7 +310,15 @@ public class JFrameEscritorio extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 			// al pulsar
 			System.out.println("Barra pulsada");
-			//abrir pestaña?
+			
+			if(panelAnag.isVisible()) {
+				panelAnag.setVisible(false);
+			}else {
+				panelAnag.setBounds(450,imagenFondo.getHeight() - 300, 400, 300);
+				panelAnag.setVisible(true);
+		}
+			
+			
 		}
 		
 	});
@@ -447,7 +462,7 @@ public class JFrameEscritorio extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { // doble clic, como en Windows
 					System.out.println("Chat abierto");
-					// aquí abrirás la ventana de el chat
+					new JFrameChat();
 				}
 			}
 		});
