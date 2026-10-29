@@ -20,7 +20,7 @@ public class JPanelAnagrama extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private DefaultTableModel modelo;
 	private JTable tabla;
-	private int filaArrastrada=-1;
+	private static final String contraseña="Andarna"; //PENSAR
 
 	public JPanelAnagrama() {
 		// TODO Auto-generated constructor stub
@@ -28,16 +28,20 @@ public class JPanelAnagrama extends JPanel{
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		this.setVisible(false);
 		
-		String [][] frases= {{"Cosas baratas"},{"Oftalmólogo"},
-				{"Cines Artea"},{"Hacer mermelada"},{"Estado California"},
-				{"Sueños de la infancia"},
-				{"Tiempo en Bilbao"},
-				{"Recetas fáciles"},
-				{"Mapa del metro"},
-				{"Noticias de hoy"},
-				{"Mejores series 2024"},
-				{"Billetes de avión"}};
-		String [] columnas= {"Búsquedas"};
+		String [][] frases= {{"restAurantes cerca de mi"},//A
+				{"libro alas De sangre"}, //D
+				{"billetes de avión"},
+				{"caRtelera cines"}, //R
+				{"receta facil salmóN al horno"}, //N
+				{"estado california"},
+				{"sueños de la infancia"},
+				{"tiempo eN bilbao"}, //N
+				{"recetas fáciles"},
+				{"festivo mAñana"}, //A
+				{"dónde está Aragón"}, //A
+				{"mejores series 2024"}
+				};
+		String [] columnas= {"Búsquedas recientes"};
 		modelo=new DefaultTableModel(frases,columnas) {
 			@Override
 			public boolean isCellEditable(int fila,int columna) {
@@ -46,36 +50,14 @@ public class JPanelAnagrama extends JPanel{
 		};
 		tabla=new JTable(modelo);
 		this.add(new JScrollPane(tabla),BorderLayout.CENTER);
-		tabla.setTableHeader(null);
 		tabla.setRowHeight(30);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		
-		MouseAdapter arrastre=new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				filaArrastrada = tabla.rowAtPoint(e.getPoint());
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				int destino = tabla.rowAtPoint(e.getPoint());
-				if (filaArrastrada >= 0 && destino >= 0 && destino != filaArrastrada) {
-					modelo.moveRow(filaArrastrada, filaArrastrada, destino);
-					filaArrastrada = destino;
-				}
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				filaArrastrada = -1;
-			}
-		};
-		
-		tabla.addMouseListener(arrastre);
-		tabla.addMouseMotionListener(arrastre);
-		
+			
 	}
 	
+	public boolean comprobar(String texto) {
+		return texto.trim().equalsIgnoreCase(contraseña);
+	
+	}	
 
 }
