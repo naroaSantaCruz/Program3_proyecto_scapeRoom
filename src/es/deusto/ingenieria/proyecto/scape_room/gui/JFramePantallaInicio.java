@@ -177,7 +177,7 @@ public class JFramePantallaInicio extends JFrame {
 		
 		botonVentana = new JButton();
 		ventanaTextoInicio = new JDialogTextoInicio(this);
-		ventanaTextoInicio.setVisible(true);
+		//ventanaTextoInicio.setVisible(true);
 		botonVentana.addActionListener(e -> {
 			ventanaTextoInicio.setVisible(!ventanaTextoInicio.isVisible());
 		});
