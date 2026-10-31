@@ -52,7 +52,7 @@ public class JFramePantallaInicio extends JFrame {
 	private JPanel panelDerecha;
 	private JPanel panelVacioDerecha;
 	private JPanel panelVacioIzquierda;
-	private ImageIcon imagenVentanaTexto = new ImageIcon("images/pantalla_inicio/maximizar.png");
+	private ImageIcon imagenVentanaTexto = new ImageIcon("images/pantalla_inicio/minimizar.png");
 	private JButton botonVentana;
 	private JDialogTextoInicio ventanaTextoInicio;
 	
@@ -150,7 +150,7 @@ public class JFramePantallaInicio extends JFrame {
 		otrosUsuarios = new JLabel();
 		Image imagenPeque = imagenUsuario.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		otrosUsuarios.setIcon(new ImageIcon(imagenPeque));
-		otrosUsuarios.setText("User");
+		otrosUsuarios.setText("Lia");
 		otrosUsuarios.setForeground(Color.WHITE);
 		otrosUsuarios.setFont(new Font("Arial", Font.BOLD, 20));
 		otrosUsuarios.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
@@ -164,6 +164,8 @@ public class JFramePantallaInicio extends JFrame {
 		botonApagado.setContentAreaFilled(false);
 		botonApagado.setBorderPainted(false);
 		botonApagado.setBorder(null);
+		botonApagado.setOpaque(false);
+		botonApagado.setFocusPainted(false);
 		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		botonApagado.setIcon(new ImageIcon(imagenPeque2));
 		botonApagado.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -175,12 +177,16 @@ public class JFramePantallaInicio extends JFrame {
 		
 		botonVentana = new JButton();
 		ventanaTextoInicio = new JDialogTextoInicio(this);
-		//ventanaTextoInicio.setVisible(true);
+		ventanaTextoInicio.setVisible(true);
 		botonVentana.addActionListener(e -> {
 			ventanaTextoInicio.setVisible(!ventanaTextoInicio.isVisible());
 		});
 		Image imagenPeque3 = imagenVentanaTexto.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
 		botonVentana.setIcon(new ImageIcon(imagenPeque3));
+		botonVentana.setOpaque(true);
+		botonVentana.setContentAreaFilled(false);
+		botonVentana.setBorderPainted(false);
+		botonVentana.setBorder(null);
 		botonesApagadoPanel.add(botonVentana);
 		botonesApagadoPanel.add(botonApagado);
 		
@@ -285,7 +291,7 @@ public class JFramePantallaInicio extends JFrame {
 	        		"Campos incompletos",JOptionPane.WARNING_MESSAGE);
 	        return;
 	    }
-	    if (usuarioIngresado.equals("user") && contraIngresada.equals("password")) {
+	    if (usuarioIngresado.equals("Lia") && contraIngresada.equals("L1@!2461")) {
 	        JFrameEscritorio escritorio = new JFrameEscritorio();
 	        this.dispose();
 	        
