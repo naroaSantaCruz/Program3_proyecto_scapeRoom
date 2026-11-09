@@ -13,6 +13,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -121,6 +123,7 @@ public class JFramePantallaInicio extends JFrame {
 	    	if ( opcion == JOptionPane.YES_OPTION ) {
 	    		new JFrameMenuPrincipal();
 	    		this.dispose();
+	    		ventanaTextoInicio.dispose();
 	    	}
 	    });
 	    botonReiniciar.addActionListener(e -> {
@@ -172,12 +175,14 @@ public class JFramePantallaInicio extends JFrame {
 		
 		footer.add(botonesApagadoPanel, BorderLayout.EAST);
 		botonApagado.addActionListener(e -> {
-			menuDesplegable.setVisible(!menuDesplegable.isVisible());
+			if ( ventanaTextoInicio != null && !ventanaTextoInicio.isVisible() ) {
+				menuDesplegable.setVisible(!menuDesplegable.isVisible());
+			}
 		});
 		
 		botonVentana = new JButton();
 		ventanaTextoInicio = new JDialogTextoInicio(this);
-		//ventanaTextoInicio.setVisible(true);
+		ventanaTextoInicio.setVisible(true);
 		botonVentana.addActionListener(e -> {
 			ventanaTextoInicio.setVisible(!ventanaTextoInicio.isVisible());
 		});
@@ -198,6 +203,22 @@ public class JFramePantallaInicio extends JFrame {
 		fondo.add(footer, BorderLayout.SOUTH);
 		this.setUndecorated(true);
 		this.setVisible(true);
+		
+		// GESTIONAR CIERRE VENTANA JDIALOG
+		this.addWindowListener( new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if ( ventanaTextoInicio != null ) {
+					ventanaTextoInicio.dispose();
+				}
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if ( ventanaTextoInicio != null ) {
+					ventanaTextoInicio.dispose();
+				}
+			}
+		});
 	}
 	
 	public JTextField crearCampoTextoUsuario() {
