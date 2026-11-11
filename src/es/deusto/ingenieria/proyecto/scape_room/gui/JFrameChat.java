@@ -54,7 +54,7 @@ public class JFrameChat extends JFrame{
 		this.setSize(1200, 800);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//panel principal
 		chatApp = new JPanel(new BorderLayout());

@@ -21,6 +21,7 @@ public class Partida {
 	private LocalDateTime fechaInicio;
 	private LocalDateTime fechaFin;
 	private boolean saltarIntro;
+	private TipoFinal tipoFinal;
 	
 	//Información para el transcurso de la partida
 	
@@ -38,6 +39,17 @@ public class Partida {
 		this.completada = false;
 		
 	}
+	
+	
+	public TipoFinal getTipoFinal() {
+		return tipoFinal;
+	}
+
+
+	public void setTipoFinal(TipoFinal tipoFinal) {
+		this.tipoFinal = tipoFinal;
+	}
+
 
 	public int getTiempoTotal() {
 		return tiempoTotal;
@@ -78,6 +90,10 @@ public class Partida {
 
 	public String getNombreJugador() {
 		return nombreJugador;
+	}
+	
+	public void setFechaInicio(LocalDateTime fechaInicio) {
+	    this.fechaInicio = fechaInicio;
 	}
 
 	public LocalDateTime getFechaInicio() {

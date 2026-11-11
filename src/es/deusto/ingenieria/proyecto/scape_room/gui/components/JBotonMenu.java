@@ -37,8 +37,9 @@ public class JBotonMenu extends JButton{
 		this.setForeground(COLOR);
 		this.setHorizontalTextPosition(JButton.CENTER);
 		this.setVerticalTextPosition(JButton.CENTER);
+		this.setFocusPainted(false);
+
 		
-		//TODO hacer una clase boton nueva para configurarlo (meterle el listemer para mouseEntered y exited)
 		this.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -54,6 +55,9 @@ public class JBotonMenu extends JButton{
 		});
 	}
 	
+	//Código extraido de una fuente externa (IA):
+	//IA: Copilot
+	//Codigo modificado para ajustarse a las dimensiones correctas y los nombres de las variables
 	private void redimensionarImagenes() {
 		Image botonImgEscalada = IMAGEN_BOTON_ORI.getImage().getScaledInstance(480, 155, Image.SCALE_SMOOTH);
 		imagenBoton = new ImageIcon(botonImgEscalada);

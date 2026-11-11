@@ -50,7 +50,7 @@ public class JFrameExploradorArchivos extends JFrame {
 	public JFrameExploradorArchivos() {
 		this.setTitle("Explorador de archivos");
 		this.setLayout( new BorderLayout() );
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize( new Dimension(900,700) );
 		this.setLocationRelativeTo(null);
 		this.setResizable(true);

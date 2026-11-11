@@ -60,11 +60,11 @@ public class JFrameMenuPrincipal extends JFrame{
 		//CREACIÓN DE LOS PANELES 
 		panelDerecho = new JPanel(new BorderLayout());
 		panelDerecho.setOpaque(false);
-		panelDerecho.setBorder(BorderFactory.createEmptyBorder(80, 100, 50, 50));
+		panelDerecho.setBorder(BorderFactory.createEmptyBorder(80, 70, 50, 50));
 		
 		panelTitulo = new JPanel();
 		panelTitulo.setOpaque(false);
-		panelTitulo.setBorder(BorderFactory.createEmptyBorder(100, 0, 100, 0));
+		panelTitulo.setBorder(BorderFactory.createEmptyBorder(100, 0, 20, 0));
 		
 		panelBotones = new JPanel(new GridLayout(4,1));
 		panelBotones.setOpaque(false);
@@ -75,8 +75,7 @@ public class JFrameMenuPrincipal extends JFrame{
 		
 		//CONTENIDO DEL PANEL DERECHO:
 		//-----Imagen / texto del título-----
-		titulo = new JLabel("Escribir aqui el título");
-		titulo.setFont(new Font("Bahnschrift",Font.BOLD,30));
+		titulo = new JLabel(new ImageIcon("images/menu_opciones_juego/titulo.png"));
 		titulo.setHorizontalAlignment(JLabel.CENTER);
 	
 		//-----Botones-----	
@@ -156,10 +155,10 @@ public class JFrameMenuPrincipal extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				//Para prbar que funciona
 				ArrayList<Partida> partidasPrueba = new ArrayList<Partida>();
-				partidasPrueba.add(new Partida("Naroa", false, Dificultad.FACIL));
-				partidasPrueba.add(new Partida("Aitor", true, Dificultad.NORMAL));
+				partidasPrueba.add(new Partida("Naroa", false, Dificultad.MEDIA));
+				partidasPrueba.add(new Partida("Aitor", true, Dificultad.FACIL));
 				partidasPrueba.add(new Partida("Leire", false, Dificultad.DIFICIL));
-				partidasPrueba.add(new Partida("Unai", true, Dificultad.NORMAL));
+				partidasPrueba.add(new Partida("Unai", true, Dificultad.MEDIA));
 				
 				JFrame jugar = new JFrameCrearCargarpartida(partidasPrueba);
 				JFrameMenuPrincipal.this.dispose();
@@ -167,6 +166,14 @@ public class JFrameMenuPrincipal extends JFrame{
 			}
 		});
 		
+		bHistorialPartidas.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RanckingPartidas r = new RanckingPartidas();
+			}
+			
+		});
 		
 	}
 
