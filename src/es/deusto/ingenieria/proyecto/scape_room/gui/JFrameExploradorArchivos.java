@@ -14,11 +14,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Flow;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +42,9 @@ public class JFrameExploradorArchivos extends JFrame {
 	private JPanel pBarraBusqueda;
 	private JTree jTreeArchivos;
 	private MouseAdapter dobleClickNodo;
+	
+	private int dimensionImagenPeque = 25;
+	private int dimensionImagenGrande = 40;
 	
 	private JButton btnSuperior;
 	private JTextField barraBusqueda;
@@ -81,6 +87,7 @@ public class JFrameExploradorArchivos extends JFrame {
 	
 	private void crearPanelSuperior() {
 		pSuperior = new JPanel( new GridLayout(1,2) );
+		pSuperior.setBackground(new Color(220, 220, 220));
 		
 		// Boton para acceder a carpeta superior
 		btnSuperior = new JButton();
@@ -96,9 +103,11 @@ public class JFrameExploradorArchivos extends JFrame {
 		pBoton = new JPanel( new FlowLayout(FlowLayout.LEFT) );
 		pBoton.add(btnSuperior);
 		pBoton.setBorder( BorderFactory.createEmptyBorder(10, 20, 0, 0));
+		pBoton.setOpaque(false);
 		
 		// Barra busqueda
 		pBarraBusqueda = new JPanel( new FlowLayout(FlowLayout.RIGHT) );
+		pBarraBusqueda.setOpaque(false);
 		barraBusqueda = new JTextField();
 		barraBusqueda.setPreferredSize( new Dimension( 200, 30) );
 		pBarraBusqueda.setBorder( BorderFactory.createEmptyBorder(10, 0, 0, 20));
@@ -132,49 +141,27 @@ public class JFrameExploradorArchivos extends JFrame {
 					String nombreNodo = (String) node.getUserObject();
 					this.setFont( new Font("Arial", Font.BOLD, 14) );
 					if ( nombreNodo.equals("Este equipo") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/escritorio.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/escritorio.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Documentos") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/carpeta.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/carpeta.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Escritorio") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/escritorio (1).png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/escritorio (1).png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Papelera") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/papelera-de-reciclaje.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/papelera-de-reciclaje.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Imágenes") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/imagen.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/imagen.png",dimensionImagenPeque));
 					} else if ( nombreNodo.contains("Doc") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/google-docs.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/google-docs.png",dimensionImagenPeque));
 					} else if ( nombreNodo.toLowerCase().contains("borrado") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/borrar.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/borrar.png",dimensionImagenPeque));
 					} else if ( nombreNodo.toLowerCase().contains("imagen") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/imagen.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/imagen.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Chat") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/escritorio/chat.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/escritorio/chat.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Terminal") ) {
-						ImageIcon imagenEscalada = new ImageIcon("images/escritorio/terminal.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/escritorio/terminal.png",dimensionImagenPeque));
 					} else {
-						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/expediente.png");
-						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-						this.setIcon(imagenEscalada);
+						this.setIcon(imagenEscalada("images/explorador_archivos/expediente.png",dimensionImagenPeque));
 					}
 				}
 				return this;
@@ -182,6 +169,11 @@ public class JFrameExploradorArchivos extends JFrame {
 		};
 		treeArchivos.setCellRenderer(rendererTree);
 		return treeArchivos;
+	}
+	
+	private ImageIcon imagenEscalada(String path, int tamano) {
+		ImageIcon imagenEscalada = new ImageIcon(path);
+		return imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(tamano, tamano, Image.SCALE_DEFAULT));
 	}
 	
 	private Map<String,List<String>> crearMapaArchivos() {
@@ -204,15 +196,37 @@ public class JFrameExploradorArchivos extends JFrame {
 				tree.setSelectionPath(rutaNodoParent); // sustituimos la seleccion anterior por la seleccion nueva del parent
 				tree.scrollPathToVisible(rutaNodoParent); // visualizamos el cambio
 			}
-			// misma lógica para visualizar nuevo arbol en el panel central
-			panel.removeAll();
-			JTree nuevoTree = new JTree(nodoParent);
-			JScrollPane scrollPane = new JScrollPane(nuevoTree);
-			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			panel.add(nuevoTree,BorderLayout.CENTER);
-			panel.revalidate();
-            panel.repaint();
+			if ( nodoParent.getUserObject().equals("Este equipo")) {
+				JPanel nuevoPanel = crearPanelCentralEsteEquipo();
+				panel.removeAll();
+				panel.add(nuevoPanel, BorderLayout.CENTER);
+				panel.revalidate();
+				panel.repaint();
+			} else if ( nodoParent.getUserObject().equals("Escritorio")) {
+				JPanel nuevoPanel = crearPanelEscritorio();
+				panel.removeAll();
+				panel.add(nuevoPanel, BorderLayout.CENTER);
+				panel.revalidate();
+				panel.repaint();
+			} else if ( nodoParent.getUserObject().equals("Documentos")) {
+				JPanel nuevoPanel = crearPanelDocumentos();
+				panel.removeAll();
+				panel.add(nuevoPanel, BorderLayout.CENTER);
+				panel.revalidate();
+				panel.repaint();
+			} else if ( nodoParent.getUserObject().equals("Papelera")) {
+				JPanel nuevoPanel = crearPanelPapelera();
+				panel.removeAll();
+				panel.add(nuevoPanel, BorderLayout.CENTER);
+				panel.revalidate();
+				panel.repaint();
+			} else if ( nodoParent.getUserObject().equals("Imágenes")) {
+				JPanel nuevoPanel = crearPanelImagenes();
+				panel.removeAll();
+				panel.add(nuevoPanel, BorderLayout.CENTER);
+				panel.revalidate();
+				panel.repaint();
+			}
 		}
 	}
 	
@@ -220,28 +234,48 @@ public class JFrameExploradorArchivos extends JFrame {
 		MouseAdapter click = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				TreePath rutaNodoSelec = tree.getPathForLocation(e.getX(), e.getY());
+				DefaultMutableTreeNode nodoSelec = (DefaultMutableTreeNode) rutaNodoSelec.getLastPathComponent();
+				String nombreArchivo = nodoSelec.getUserObject().toString();
 				if ( e.getClickCount() == 1 ) {
-					TreePath rutaNodoSelec = tree.getPathForLocation(e.getX(), e.getY());
 					if ( rutaNodoSelec != null ) {
-						DefaultMutableTreeNode nodoSelec = (DefaultMutableTreeNode) rutaNodoSelec.getLastPathComponent();
 						if ( !nodoSelec.isLeaf() ) {
-							panel.removeAll(); // limpia los elementos que ahora mismo están en el panel, para no sobreescribir elementos
-							JTree nuevoTree = new JTree(nodoSelec);
-							JScrollPane scrollPane = new JScrollPane(nuevoTree);
-							scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-							scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-							panel.add(nuevoTree,BorderLayout.CENTER);
-							// vuelve a pintar los elementos en el panel
-							panel.revalidate();
-	                        panel.repaint();
+							if ( nombreArchivo.equals("Este equipo")) {
+								JPanel nuevoPanel = crearPanelCentralEsteEquipo();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							} else if ( nombreArchivo.equals("Escritorio")) {
+								JPanel nuevoPanel = crearPanelEscritorio();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							} else if ( nombreArchivo.equals("Documentos")) {
+								JPanel nuevoPanel = crearPanelDocumentos();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							} else if ( nombreArchivo.equals("Papelera")) {
+								JPanel nuevoPanel = crearPanelPapelera();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							} else if ( nombreArchivo.equals("Imagenes")) {
+								JPanel nuevoPanel = crearPanelImagenes();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							}
 						}
 					}
 				} else if ( e.getClickCount() == 2 ) {
-					TreePath rutaNodoSelec = tree.getPathForLocation(e.getX(), e.getY());
 					if ( rutaNodoSelec != null ) {
-						DefaultMutableTreeNode nodoSelec = (DefaultMutableTreeNode) rutaNodoSelec.getLastPathComponent();
 						if ( nodoSelec.isLeaf() ) {
-							String nombreArchivo = nodoSelec.getUserObject().toString();
 							if ( nombreArchivo.equals("Terminal") ) {
 								int respuesta = JOptionPane.showConfirmDialog(
 				                        panel, "¿Deseas abrir la Terminal?","Abrir elemento",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
@@ -256,12 +290,145 @@ public class JFrameExploradorArchivos extends JFrame {
 				                        new JFrameChat();
 				                    }
 							}
+							
 						}
 					}
 				}
 			}
 		};
 		return click;
+	}
+	
+	private JPanel crearPanelCentralEsteEquipo() {
+		JPanel panel = new JPanel( new GridLayout(2,1) );
+		
+		JPanel panelArriba = new JPanel( new BorderLayout() );
+		panelArriba.setOpaque(false);
+		JPanel panelElementos = new JPanel( new GridLayout(2,2) );
+		panelElementos.setOpaque(false);
+		JLabel labelTitulo = new JLabel("Acceso rápido");
+		panelArriba.add(labelTitulo,BorderLayout.NORTH);
+		JLabel panelEscritorio = new JLabel("Escritorio");
+		establecerIconoLabel(panelEscritorio, true);
+		JLabel panelDocumentos = new JLabel("Documentos");
+		establecerIconoLabel(panelDocumentos, true);
+		JLabel panelImagenes = new JLabel("Imágenes");
+		establecerIconoLabel(panelImagenes, true);
+		JLabel panelPapelera = new JLabel("Papelera");
+		establecerIconoLabel(panelPapelera, true);
+		panelElementos.add(panelEscritorio);
+		panelElementos.add(panelDocumentos);
+		panelElementos.add(panelImagenes);
+		panelElementos.add(panelPapelera);
+		panelArriba.setBorder(BorderFactory.createEmptyBorder(10,30,0,0));
+		panelElementos.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+		panelArriba.add(panelElementos, BorderLayout.CENTER);
+		panel.add(panelArriba);
+
+		JPanel panelAbajo = crearPanelArchivos("Archivos recientes");
+		panel.add(panelAbajo);
+		panel.setBackground(Color.WHITE);
+		
+		return panel;
+	}
+	
+	private JPanel crearPanelEscritorio() {
+		return crearPanelArchivos("Escritorio",mapaTree.get("Escritorio"));
+	}
+	
+	private JPanel crearPanelDocumentos() {
+		return crearPanelArchivos("Documentos",mapaTree.get("Documentos"));
+	}
+	
+	private JPanel crearPanelPapelera() {
+		return crearPanelArchivos("Papelera",mapaTree.get("Papelera"));
+	}
+	
+	private JPanel crearPanelImagenes() {
+		return crearPanelArchivos("Imágenes",mapaTree.get("Imágenes"));
+	}
+	
+	private JPanel crearPanelArchivos(String titulo) {
+		JLabel labelTitulo = new JLabel(titulo);
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.setOpaque(false);
+		JPanel panelArchivos = new JPanel();
+		panelArchivos.setBackground(Color.WHITE);
+		panelArchivos.setLayout(new BoxLayout(panelArchivos, BoxLayout.Y_AXIS));
+		for ( String carpeta: this.mapaTree.keySet() ) {
+			for ( String archivo: mapaTree.get(carpeta) ) {
+				JLabel labelArchivo = new JLabel(archivo);
+				establecerIconoLabel(labelArchivo,false);
+				labelArchivo.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+				panelArchivos.add(labelArchivo);
+			}
+		}
+		JScrollPane scroll = new JScrollPane(panelArchivos);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setBackground(Color.WHITE);
+		panel.add(labelTitulo,BorderLayout.NORTH);
+		panel.add(scroll,BorderLayout.CENTER);
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+		scroll.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+		return panel;
+	}
+	
+	private JPanel crearPanelArchivos(String titulo, List<String> archivos) {
+		JLabel labelTitulo = new JLabel(titulo);
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.setOpaque(false);
+		JPanel panelArchivos = new JPanel();
+		panelArchivos.setBackground(Color.WHITE);
+		panelArchivos.setLayout(new BoxLayout(panelArchivos, BoxLayout.Y_AXIS));
+		for ( String archivo: archivos ) {
+			JLabel labelArchivo = new JLabel(archivo);
+			establecerIconoLabel(labelArchivo,false);
+			labelArchivo.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+			panelArchivos.add(labelArchivo);
+		}
+		JScrollPane scroll = new JScrollPane(panelArchivos);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setBackground(Color.WHITE);
+		panel.add(labelTitulo,BorderLayout.NORTH);
+		panel.add(scroll,BorderLayout.CENTER);
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+		scroll.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+		return panel;
+	}
+	
+	private void establecerIconoLabel( JLabel label, boolean grande ) {
+		int tamano;
+		if ( grande ) {
+			tamano = dimensionImagenGrande;
+		} else {
+			tamano = dimensionImagenPeque;
+		}
+		String nombre = label.getText();
+		if ( nombre.equals("Este equipo") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/escritorio.png",tamano));
+		} else if ( nombre.equals("Documentos") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/carpeta.png",tamano));
+		} else if ( nombre.equals("Escritorio") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/escritorio (1).png",tamano));
+		} else if ( nombre.equals("Papelera") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/papelera-de-reciclaje.png",tamano));
+		} else if ( nombre.equals("Imágenes") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/imagen.png",tamano));
+		} else if ( nombre.contains("Doc") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/google-docs.png",tamano));
+		} else if ( nombre.toLowerCase().contains("borrado") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/borrar.png",tamano));
+		} else if ( nombre.toLowerCase().contains("imagen") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/imagen.png",tamano));
+		} else if ( nombre.equals("Chat") ) {
+			label.setIcon(imagenEscalada("images/escritorio/chat.png",tamano));
+		} else if ( nombre.equals("Terminal") ) {
+			label.setIcon(imagenEscalada("images/escritorio/terminal.png",tamano));
+		} else {
+			label.setIcon(imagenEscalada("images/explorador_archivos/expediente.png",tamano));
+		}
 	}
 	
 	public static void main(String[] args) {
