@@ -112,6 +112,8 @@ public class JDialogHistoria extends JDialog{
 			public void mouseClicked(MouseEvent e) {				
 				if(bContinuar.getText().equals("START")) {
 					JDialogHistoria.this.dispose();
+					JFramePantallaInicio pantantallaInicio = new JFramePantallaInicio();
+					
 				} else if(textoActual < textoLore.length-1) {
 					textoActual++;
 					info.setText("<html><center>" + textoLore[textoActual] + "</center></html>");

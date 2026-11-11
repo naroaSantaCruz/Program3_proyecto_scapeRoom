@@ -6,13 +6,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JPanelMensaje;
 
 public class JFrameChat extends JFrame{
 	
@@ -22,10 +27,11 @@ public class JFrameChat extends JFrame{
 	private JPanel listaChats; //panel izquierda
 	private JPanel infoChat; //linea north con la informacion sobre el chat
 	private JPanel chat; //conversacion y boton escribir
-	private JPanel conversacion; //panel tipo scroll con mensajes
 	private JPanel mensaje; //JPanelMensaje
 	private JPanel usu; //foto y nombre del usuario
 	private JPanel escribir; //barra de escribir
+	private JPanel panelConversacion;
+	private JScrollPane scrollConversacion;
 	
 	private JLabel fotoPerfil;
 	private JLabel fondoChat;
@@ -88,7 +94,21 @@ public class JFrameChat extends JFrame{
 		//panel del chat
 		chat = new JPanel(new BorderLayout());
 		
-		conversacion = new JPanel();
+		panelConversacion = new JPanel();
+		panelConversacion.setLayout(new BoxLayout(panelConversacion, BoxLayout.Y_AXIS));
+		
+		//añadir mensajes al JBox
+		// (prueba)
+		JPanelMensaje msg1 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg2 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg1);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg2);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		//añadir JBox al scroll
+		scrollConversacion = new JScrollPane(panelConversacion);		
 		
 		//barra escribir
 		escribir = new JPanel(new BorderLayout());
@@ -114,7 +134,7 @@ public class JFrameChat extends JFrame{
 		escribir.add(chatBloqueado, BorderLayout.CENTER);
 		
 		chat.add(escribir, BorderLayout.SOUTH);
-		chat.add(conversacion, BorderLayout.CENTER);
+		chat.add(scrollConversacion, BorderLayout.CENTER);
 		
 		//añadir elementos al panel principal
 		chatApp.add(listaChats,BorderLayout.WEST);

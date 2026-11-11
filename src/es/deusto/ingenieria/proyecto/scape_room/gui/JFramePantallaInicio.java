@@ -13,16 +13,20 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -32,7 +36,7 @@ public class JFramePantallaInicio extends JFrame {
 	private JLabel fondo;
 	private ImageIcon imagenWindows = new ImageIcon("images/pantalla_inicio/fondo_inicio_windows.jpg");
 	private Image imagenEscalada;
-	private ImageIcon imagenUsuario = new ImageIcon("images/pantalla_inicio/icono_inicio_usuario.png");
+	private ImageIcon imagenUsuario = new ImageIcon("images/pantalla_inicio/circulo-de-usuarios.png");
 	private JPanel panelCentral;
 	private JLabel iconoUsuario;
 	private JTextField usuarioTexto;
@@ -42,7 +46,17 @@ public class JFramePantallaInicio extends JFrame {
 	private JPanel botonesApagadoPanel;
 	private JLabel otrosUsuarios;
 	private JButton botonApagado;
-	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton_apagado.png");
+	private ImageIcon imagenBotonAgado = new ImageIcon("images/pantalla_inicio/boton-de-encendido (1).png");
+	private JButton botonApagar = new JButton("Apagar");
+	private JButton botonReiniciar = new JButton("Reiniciar");
+	private JButton botonSuspender = new JButton("Suspender");
+	private JPanel menuDesplegable;
+	private JPanel panelDerecha;
+	private JPanel panelVacioDerecha;
+	private JPanel panelVacioIzquierda;
+	private ImageIcon imagenVentanaTexto = new ImageIcon("images/pantalla_inicio/minimizar.png");
+	private JButton botonVentana;
+	private JDialogTextoInicio ventanaTextoInicio;
 	
 	public JFramePantallaInicio() {
 		
@@ -75,7 +89,8 @@ public class JFramePantallaInicio extends JFrame {
 		gbc.fill = GridBagConstraints.NONE;
 		
 		iconoUsuario = new JLabel();
-		iconoUsuario.setIcon(imagenUsuario);
+		Image imagenUsuarioEscalada = imagenUsuario.getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH);
+		iconoUsuario.setIcon(new ImageIcon(imagenUsuarioEscalada));
 		gbc.gridy = 0;
 		gbc.insets = new Insets(0, 0, 15, 0);
 		panelCentral.add(iconoUsuario, gbc);
@@ -91,9 +106,46 @@ public class JFramePantallaInicio extends JFrame {
 		usuarioTexto.addActionListener(e -> validarYEntrar());
 	    contraTexto.addActionListener(e -> validarYEntrar());
 		
+	    
+	    // CONFIGURACIÓN MENÚ DESPLEGABLE CON OPCIONES APAGAR...
+	    menuDesplegable = new JPanel();
+	    menuDesplegable.setLayout(new GridLayout(3,1));
+	    menuDesplegable.add(botonApagar);
+	    menuDesplegable.add(botonReiniciar);
+	    menuDesplegable.add(botonSuspender);
+	    panelDerecha = new JPanel(new BorderLayout());
+	    panelDerecha.add(menuDesplegable,BorderLayout.SOUTH);
+	    menuDesplegable.setOpaque(false);
+	    panelDerecha.setOpaque(false);
+	    botonApagar.addActionListener(e -> {
+	    	int opcion = JOptionPane.showConfirmDialog(JFramePantallaInicio.this, "¿Quieres rendirte?",
+	    			"Apagar",JOptionPane.YES_NO_OPTION);
+	    	if ( opcion == JOptionPane.YES_OPTION ) {
+	    		new JFrameMenuPrincipal();
+	    		this.dispose();
+	    		ventanaTextoInicio.dispose();
+	    	}
+	    });
+	    botonReiniciar.addActionListener(e -> {
+	    	int opcion = JOptionPane.showConfirmDialog(JFramePantallaInicio.this, "¿Quieres reiniciar?",
+	    			"Reiniciar", JOptionPane.YES_NO_OPTION);
+	    	if ( opcion == JOptionPane.YES_OPTION ) {
+	    		new JFramePantallaInicio();
+	    		this.dispose();
+	    	}
+	    });
+	    panelVacioDerecha = new JPanel();
+	    panelVacioDerecha.setOpaque(false);
+	    panelVacioDerecha.setPreferredSize(menuDesplegable.getPreferredSize());
+	    panelDerecha.add(panelVacioDerecha, BorderLayout.CENTER);
+	    panelVacioIzquierda = new JPanel();
+	    panelVacioIzquierda.setOpaque(false);
+	    panelVacioIzquierda.setPreferredSize(menuDesplegable.getPreferredSize());
+	    menuDesplegable.setVisible(false);
 		
+	    
 		// CONFIGURACIÓN DEL FOOTER
-		footer = new JPanel(new GridLayout(1,2));
+		footer = new JPanel(new BorderLayout());
 		footer.setOpaque(false);
 		
 		otrosUsuariosPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -101,30 +153,72 @@ public class JFramePantallaInicio extends JFrame {
 		otrosUsuarios = new JLabel();
 		Image imagenPeque = imagenUsuario.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		otrosUsuarios.setIcon(new ImageIcon(imagenPeque));
-		otrosUsuarios.setText("User");
+		otrosUsuarios.setText("Lia");
 		otrosUsuarios.setForeground(Color.WHITE);
 		otrosUsuarios.setFont(new Font("Arial", Font.BOLD, 20));
 		otrosUsuarios.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 		otrosUsuarios.setIconTextGap(10);
 		otrosUsuariosPanel.add(otrosUsuarios);
-		footer.add(otrosUsuariosPanel);
+		footer.add(otrosUsuariosPanel, BorderLayout.WEST);
 		
-		botonesApagadoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		botonesApagadoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		botonesApagadoPanel.setOpaque(false);
 		botonApagado = new JButton();
 		botonApagado.setContentAreaFilled(false);
 		botonApagado.setBorderPainted(false);
 		botonApagado.setBorder(null);
+		botonApagado.setOpaque(false);
+		botonApagado.setFocusPainted(false);
 		Image imagenPeque2 = imagenBotonAgado.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
 		botonApagado.setIcon(new ImageIcon(imagenPeque2));
+		botonApagado.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		footer.add(botonesApagadoPanel, BorderLayout.EAST);
+		botonApagado.addActionListener(e -> {
+			if ( ventanaTextoInicio != null && !ventanaTextoInicio.isVisible() ) {
+				menuDesplegable.setVisible(!menuDesplegable.isVisible());
+			}
+		});
+		
+		botonVentana = new JButton();
+		ventanaTextoInicio = new JDialogTextoInicio(this);
+		ventanaTextoInicio.setVisible(true);
+		botonVentana.addActionListener(e -> {
+			ventanaTextoInicio.setVisible(!ventanaTextoInicio.isVisible());
+		});
+		Image imagenPeque3 = imagenVentanaTexto.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
+		botonVentana.setIcon(new ImageIcon(imagenPeque3));
+		botonVentana.setOpaque(true);
+		botonVentana.setContentAreaFilled(false);
+		botonVentana.setBorderPainted(false);
+		botonVentana.setBorder(null);
+		botonesApagadoPanel.add(botonVentana);
 		botonesApagadoPanel.add(botonApagado);
-		footer.add(botonesApagadoPanel);
 		
 		
-		// AÑADIR AMBOS PANELES AL FONDO
+		// AÑADIR AMBOS PANELES CENTRALES, LATERALES Y FOOTER
+		fondo.add(panelVacioIzquierda,BorderLayout.WEST);
+	    fondo.add(panelDerecha,BorderLayout.EAST);
 		fondo.add(panelCentral, BorderLayout.CENTER);
 		fondo.add(footer, BorderLayout.SOUTH);
+		this.setUndecorated(true);
 		this.setVisible(true);
+		
+		// GESTIONAR CIERRE VENTANA JDIALOG
+		this.addWindowListener( new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if ( ventanaTextoInicio != null ) {
+					ventanaTextoInicio.dispose();
+				}
+			}
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if ( ventanaTextoInicio != null ) {
+					ventanaTextoInicio.dispose();
+				}
+			}
+		});
 	}
 	
 	public JTextField crearCampoTextoUsuario() {
@@ -218,9 +312,9 @@ public class JFramePantallaInicio extends JFrame {
 	        		"Campos incompletos",JOptionPane.WARNING_MESSAGE);
 	        return;
 	    }
-	    if (usuarioIngresado.equals("user") && contraIngresada.equals("password")) {
-	        this.dispose(); 
+	    if (usuarioIngresado.equals("Lia") && contraIngresada.equals("L1@!2461")) {
 	        JFrameEscritorio escritorio = new JFrameEscritorio();
+	        this.dispose();
 	        
 	    } else {
 	        JOptionPane.showMessageDialog(this,"Usuario o contraseña incorrectos","Error de autenticación",JOptionPane.ERROR_MESSAGE);
