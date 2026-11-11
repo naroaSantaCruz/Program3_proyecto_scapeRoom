@@ -92,7 +92,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		btnSuperior.setBorder(null);
 		btnSuperior.setOpaque(false);
 		btnSuperior.setFocusPainted(false);
-		btnSuperior.addActionListener( e -> subirDeNivel(jTreeArchivos));
+		btnSuperior.addActionListener( e -> subirDeNivel(jTreeArchivos,pCentro));
 		pBoton = new JPanel( new FlowLayout(FlowLayout.LEFT) );
 		pBoton.add(btnSuperior);
 		pBoton.setBorder( BorderFactory.createEmptyBorder(10, 20, 0, 0));
@@ -193,7 +193,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		return mapaTree;
 	}
 	
-	private void subirDeNivel(JTree tree) {
+	private void subirDeNivel(JTree tree,JPanel panel) {
 		// código generado con ayuda de IA
 		TreePath rutaNodoSeleccionado = tree.getSelectionPath(); // cogemos la ruta del nodo actualmente seleccionado
 		if ( rutaNodoSeleccionado != null ) {
@@ -204,6 +204,15 @@ public class JFrameExploradorArchivos extends JFrame {
 				tree.setSelectionPath(rutaNodoParent); // sustituimos la seleccion anterior por la seleccion nueva del parent
 				tree.scrollPathToVisible(rutaNodoParent); // visualizamos el cambio
 			}
+			// misma lógica para visualizar nuevo arbol en el panel central
+			panel.removeAll();
+			JTree nuevoTree = new JTree(nodoParent);
+			JScrollPane scrollPane = new JScrollPane(nuevoTree);
+			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			panel.add(nuevoTree,BorderLayout.CENTER);
+			panel.revalidate();
+            panel.repaint();
 		}
 	}
 	
