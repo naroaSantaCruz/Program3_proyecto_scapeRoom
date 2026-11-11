@@ -455,8 +455,7 @@ public class JFrameEscritorio extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { // doble clic, como en Windows
-					System.out.println("Explorador de archivos abierta");
-					// aquí abrirás la ventana del explorador de archivos
+					new JFrameExploradorArchivos();
 				}
 			}
 		});
