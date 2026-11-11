@@ -134,6 +134,10 @@ public class JFrameExploradorArchivos extends JFrame {
 						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/imagen.png");
 						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 						this.setIcon(imagenEscalada);
+					} else if ( nombreNodo.contains("Doc") ) {
+						ImageIcon imagenEscalada = new ImageIcon("images/explorador_archivos/imagen.png");
+						imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+						this.setIcon(imagenEscalada);
 					}
 				}
 				return this;
