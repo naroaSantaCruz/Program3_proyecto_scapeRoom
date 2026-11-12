@@ -48,6 +48,8 @@ public class JFrameChat extends JFrame{
 	private Image imagenReEmoji = imagenOriEmoji.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 	private ImageIcon imagenEmoji = new ImageIcon(imagenReEmoji);
 	
+	
+	
 
 	public JFrameChat() {
 		this.setTitle("BlackBox Chat");
@@ -105,6 +107,54 @@ public class JFrameChat extends JFrame{
 		panelConversacion.add(msg1);
 		panelConversacion.add(Box.createVerticalStrut(10));
 		panelConversacion.add(msg2);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg3 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg4 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg3);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg4);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg5 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg6 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg5);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg6);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg7 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg8 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg7);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg8);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg9 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg10 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg9);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg10);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg11 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg12 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg11);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg12);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		
+		JPanelMensaje msg13 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
+		JPanelMensaje msg14 = new JPanelMensaje(1, "Sí, los tengo listos.");
+	
+		panelConversacion.add(msg13);
+		panelConversacion.add(Box.createVerticalStrut(10));
+		panelConversacion.add(msg14);
 		panelConversacion.add(Box.createVerticalStrut(10));
 		
 		//añadir JBox al scroll
