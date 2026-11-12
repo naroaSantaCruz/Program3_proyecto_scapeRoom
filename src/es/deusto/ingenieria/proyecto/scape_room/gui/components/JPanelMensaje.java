@@ -23,28 +23,31 @@ public class JPanelMensaje extends JPanel{
 	
 	private String[] nombresUsuarios = {"    GhostKorp_Fj", "Me    "};
 
-	public JPanelMensaje(int codUsuario, String mensaje) {
+	public JPanelMensaje(int codUsuario, String[] mensaje) {
 		
 		this.setLayout(new BorderLayout());
 		this.setOpaque(false);
 		
 		usuario = new JLabel(nombresUsuarios[codUsuario]);
 		usuario.setOpaque(false);
-		usuario.setFont(new Font("usuario", Font.TRUETYPE_FONT, 12));
+		usuario.setFont(new Font("Monospaced", Font.BOLD, 12));
 		burbuja = new JLabel();
 		burbuja.setOpaque(false);
+		burbuja.setFont(new Font("Verdana", Font.PLAIN, 14));
 		
 		//resize burbuja dependiendo del numero de lineas
-		int countLineas = 1;
-		for (int i = 0; i < mensaje.length(); i++) {
-			char c = mensaje.charAt(i);
-			if (c == '\n') {
-				countLineas++;
-			}
-		}
+		int h = 40*mensaje.length;
+		int l = 440;
 		
-		int h = 35*countLineas;
-		int l = 400;
+		//montar el mensaje
+		String mensajeText = "<html>";
+		for (int i = 0; i < mensaje.length; i++) {
+			mensajeText += mensaje[i];
+			if(i < mensaje.length-1) {
+				mensajeText += "<br>";
+			} 
+		} 
+		mensajeText += "</html>";
 		
 		if(codUsuario == 0) {
 			imagenRedi = burbujaKorp.getImage().getScaledInstance(l, h, Image.SCALE_SMOOTH);
@@ -62,8 +65,7 @@ public class JPanelMensaje extends JPanel{
 		
 		//añadir foto y texto
 		burbuja.setIcon(imagen);
-		burbuja.setText(mensaje);
-		burbuja.setFont(new Font("mensaje", Font.PLAIN, 14));
+		burbuja.setText(mensajeText);
 		burbuja.setHorizontalTextPosition(JLabel.CENTER);
 		burbuja.setVerticalTextPosition(JLabel.CENTER);
 		

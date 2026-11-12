@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -39,6 +42,8 @@ public class JFrameChat extends JFrame{
 	private JLabel nombreUsu;
 	private JLabel emoji;
 	private JLabel chatBloqueado;
+	
+	private String rutaFich = "documents/chat.csv";
 	
 	private ImageIcon imagenOriPerfil = new ImageIcon("images/chat_fjerda/fotoPerfilCuervo.png");
 	private Image imagenRedimensionadaPerfil = imagenOriPerfil.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
@@ -100,62 +105,23 @@ public class JFrameChat extends JFrame{
 		panelConversacion.setLayout(new BoxLayout(panelConversacion, BoxLayout.Y_AXIS));
 		
 		//añadir mensajes al JBox
-		// (prueba)
-		JPanelMensaje msg1 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg2 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg1);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg2);
-		panelConversacion.add(Box.createVerticalStrut(10));
 		
-		JPanelMensaje msg3 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg4 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg3);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg4);
-		panelConversacion.add(Box.createVerticalStrut(10));
+		File converFich = new File(rutaFich);
+		try {
+			Scanner leerFich = new Scanner(converFich);
+			while (leerFich.hasNextLine()) {
+				String[] mensajeData = leerFich.nextLine().split(";");
+				Integer usu = Integer.valueOf(mensajeData[0]);
+				String[] textoMensaje = mensajeData[1].split("_");
+				JPanelMensaje msg = new JPanelMensaje(usu, textoMensaje);
+				panelConversacion.add(msg);
+				panelConversacion.add(Box.createVerticalStrut(10));
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		JPanelMensaje msg5 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg6 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg5);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg6);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		
-		JPanelMensaje msg7 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg8 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg7);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg8);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		
-		JPanelMensaje msg9 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg10 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg9);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg10);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		
-		JPanelMensaje msg11 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg12 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg11);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg12);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		
-		JPanelMensaje msg13 = new JPanelMensaje(0, "Hola, ¿tienes los códigos?");
-		JPanelMensaje msg14 = new JPanelMensaje(1, "Sí, los tengo listos.");
-	
-		panelConversacion.add(msg13);
-		panelConversacion.add(Box.createVerticalStrut(10));
-		panelConversacion.add(msg14);
-		panelConversacion.add(Box.createVerticalStrut(10));
 		
 		//añadir JBox al scroll
 		scrollConversacion = new JScrollPane(panelConversacion);		
