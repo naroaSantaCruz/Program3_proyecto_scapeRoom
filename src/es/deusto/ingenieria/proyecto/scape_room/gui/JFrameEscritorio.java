@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -35,6 +37,7 @@ public class JFrameEscritorio extends JFrame{
 		private JPanel panelCentro;
 		private JPanel panelDerecha;
 		private JPanel menuDesplegable;
+		private JPanel panelAnag;
 
 		// Componentes del escritorio
 		private JLabel papelera;
@@ -69,6 +72,7 @@ public class JFrameEscritorio extends JFrame{
 		crearPanelPendrive();
 		eventosBoton();
 		configurarVentana();
+		crearPanelAnag();
 		JDialogVirus virus = new JDialogVirus();
 		//TODO usar hilos cuando sepamos
 		Timer timer = new Timer(500, e -> {virus.setVisible(true);});
@@ -150,7 +154,7 @@ public class JFrameEscritorio extends JFrame{
 		barraBusqueda.setPreferredSize(new Dimension(300,30));
 		barraBusqueda.setForeground(Color.gray);
 		barraBusqueda.setBackground(Color.white);
-		barraBusqueda.setEditable(false);
+		barraBusqueda.setEditable(true);
 		panelCentro.add(barraBusqueda);
 		
 		//Terminal
@@ -253,6 +257,11 @@ public class JFrameEscritorio extends JFrame{
 	    imagenFondo.add(panelPendrive, 0);
 	}
 	
+	private void crearPanelAnag() {
+		panelAnag=new JPanelAnagrama();
+		imagenFondo.add(panelAnag,0);
+	}
+	
 	
 	// ----------------------------
 	// EVENTOS
@@ -279,7 +288,7 @@ public class JFrameEscritorio extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) { // doble clic, como en Windows
 				System.out.println("Papelera abierta");
-				new JFrameChat();
+				
 			}
 		}
 	});
@@ -301,12 +310,33 @@ public class JFrameEscritorio extends JFrame{
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// al pulsar
-			System.out.println("Barra pulsada");
-			//abrir pestaña?
+			// al pulsar. Hacer q al conseguir la contrase
+			
+			if(panelAnag.isVisible()) {
+				barraBusqueda.setText("Buscar");
+				panelAnag.setVisible(false);
+			}else {
+				panelAnag.setBounds(450,imagenFondo.getHeight() - 300, 400, 300);
+				barraBusqueda.setText(" ");
+				panelAnag.setVisible(true);
+		}
+			
+			
 		}
 		
 	});
+		
+		
+		barraBusqueda.addActionListener(e->{
+			String escrito=barraBusqueda.getText();
+			if (((JPanelAnagrama) panelAnag).comprobar(escrito)) {
+				JOptionPane.showMessageDialog(JFrameEscritorio.this, "¡Fichero conseguido!");
+				panelAnag.setVisible(false);
+				barraBusqueda.setText("Buscar");
+			}else {
+				barraBusqueda.setText(" ");
+			}
+		});
 		
 		
 		//MENÚ DESPLEGABLE (botón logo)
@@ -343,16 +373,17 @@ public class JFrameEscritorio extends JFrame{
 
 		// Al pulsar "Extraer pendrive": desaparece el pendrive
 		bPendrive.addActionListener(e -> {
-		    panelPendrive.removeAll();
+			int r=JOptionPane.showConfirmDialog(JFrameEscritorio.this,
+					"¿Seguro que quieres extraerlo?","Extraer",JOptionPane.YES_NO_OPTION);
+			if(r==JOptionPane.YES_OPTION) {
+				JFrameEscritorio.this.dispose();
+			    new JFrameMenuPrincipal();
+			}
 
-		    lblSinDispositivos = new JLabel("No hay dispositivos", SwingConstants.CENTER);
-		    lblSinDispositivos.setForeground(Color.GRAY);
-		    panelPendrive.add(lblSinDispositivos, BorderLayout.CENTER);
-
+ 
 		    panelPendrive.revalidate();
 		    panelPendrive.repaint();
 
-		    // TODO: marcar en la partida que el pendrive ya no está insertado
 		});
 		
 		//OPCIONES MENÚ INICIO
@@ -424,8 +455,7 @@ public class JFrameEscritorio extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { // doble clic, como en Windows
-					System.out.println("Explorador de archivos abierta");
-					// aquí abrirás la ventana del explorador de archivos
+					new JFrameExploradorArchivos();
 				}
 			}
 		});
@@ -447,7 +477,7 @@ public class JFrameEscritorio extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) { // doble clic, como en Windows
 					System.out.println("Chat abierto");
-					// aquí abrirás la ventana de el chat
+					new JFrameChat();
 				}
 			}
 		});
