@@ -99,6 +99,13 @@ public class JFrameTerminal extends JFrame{
 		} else if (comando.equals("cl")) {
 			salida.setText("");
 			mostrarMensajeInicial();
+		}else if(comando.equals("ls")){
+			salida.append("lista de archivos\n");
+		}else if(comando.equals("ls -a")) {
+			salida.append("lista archivos+ocultos\n");
+		}else if(comando.equals("cat")){
+			//si cat cosa, si cosa no importa, enseñar contenido
+			//si cosa importante, denegado
 		}
 		// TODO: aquí irán los comandos que llevan a conseguir el fichero
 		else {
@@ -113,10 +120,8 @@ public class JFrameTerminal extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // no EXIT_ON_CLOSE, o cierra todo el juego
 		this.setVisible(true);
-		entrada.requestFocusInWindow();
+		this.setResizable(false);
+		entrada.requestFocusInWindow(); //IA
 	}
-	
-	
-
 
 }

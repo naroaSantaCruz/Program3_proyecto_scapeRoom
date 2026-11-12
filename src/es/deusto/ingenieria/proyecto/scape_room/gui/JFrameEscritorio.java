@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -54,7 +56,19 @@ public class JFrameEscritorio extends JFrame{
 		private JButton bFlecha;
 		private JLabel reloj;
 		private Timer timer;
+		private JFrameTerminal ventanaTerminal;
 		private JButton terminal;
+		
+		private JFrameChat ventanaChat;
+		private JButton bChat;
+		
+		private JFrameExploradorArchivos ventanaArchivos;
+		private JButton bArchivos;
+		
+		
+		
+		
+		
 
 		// Botones del menú de inicio
 		private JButton bApagar;
@@ -73,11 +87,12 @@ public class JFrameEscritorio extends JFrame{
 		eventosBoton();
 		configurarVentana();
 		crearPanelAnag();
-		JDialogVirus virus = new JDialogVirus();
+		/*JDialogVirus virus = new JDialogVirus();
 		//TODO usar hilos cuando sepamos
 		Timer timer = new Timer(500, e -> {virus.setVisible(true);});
 		timer.setRepeats(false);
-		timer.start();
+		timer.start();*/
+		
 	}
 
 	
@@ -157,6 +172,8 @@ public class JFrameEscritorio extends JFrame{
 		barraBusqueda.setEditable(true);
 		panelCentro.add(barraBusqueda);
 		
+		
+		
 		//Terminal
 		Image imTerminal=new ImageIcon("images/escritorio/terminal.png").getImage()
 				.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
@@ -168,6 +185,9 @@ public class JFrameEscritorio extends JFrame{
 		terminal.setToolTipText("Terminal");
 		
 		panelCentro.add(terminal);
+		bChat = crearIconoBarra("images/escritorio/chat.png", "Chat");
+		bArchivos = crearIconoBarra("images/escritorio/explorador_archivos.png", "Chat");
+		
 		
 		
 		//-----Crear JPanel DERECHA administrador tareas-----
@@ -377,6 +397,7 @@ public class JFrameEscritorio extends JFrame{
 					"¿Seguro que quieres extraerlo?","Extraer",JOptionPane.YES_NO_OPTION);
 			if(r==JOptionPane.YES_OPTION) {
 				JFrameEscritorio.this.dispose();
+				cerrarApps();
 			    new JFrameMenuPrincipal();
 			}
 
@@ -394,6 +415,7 @@ public class JFrameEscritorio extends JFrame{
 					"¿Quieres rendirte?", "Apagar", JOptionPane.YES_NO_OPTION);
 			if (r == JOptionPane.YES_OPTION) {
 				JFrameEscritorio.this.dispose();
+				cerrarApps();
 				new JFrameMenuPrincipal();
 		}
 	});
@@ -418,6 +440,7 @@ public class JFrameEscritorio extends JFrame{
 		bCerrarSesion.addActionListener(e -> {
 			//Ir a la pantalla de inicio de sesion, guardando datos
 			JFrameEscritorio.this.dispose();
+			cerrarApps();
 			new JFrameMenuPrincipal();
 	});
 		//mouse listener para que se cambie el borde
@@ -435,7 +458,7 @@ public class JFrameEscritorio extends JFrame{
 		
 		//action listener para que vaya a el jframe
 		terminal.addActionListener(e -> {
-			new JFrameTerminal();
+			ventanaTerminal=new JFrameTerminal();
 		});
 		
 		//EXPLORADOR ARCHIVOS
@@ -445,7 +468,8 @@ public class JFrameEscritorio extends JFrame{
 				// efecto de "seleccionado" al pasar por encima
 				explorador_archivos.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 150)));
 			
-			}
+			} 
+			
 
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -454,12 +478,18 @@ public class JFrameEscritorio extends JFrame{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) { // doble clic, como en Windows
-					new JFrameExploradorArchivos();
+				if (e.getClickCount() == 2) { 
+					if (ventanaArchivos == null) { // solo la primera vez
+						ventanaArchivos = new JFrameExploradorArchivos();
+						prepararVentana(ventanaArchivos, bArchivos);
+					}
+					mostarApp(ventanaArchivos, bArchivos);
 				}
 			}
 		});
 		
+		
+		//CHAT
 		chat.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -475,14 +505,78 @@ public class JFrameEscritorio extends JFrame{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) { // doble clic, como en Windows
-					System.out.println("Chat abierto");
-					new JFrameChat();
+				if (e.getClickCount() == 2) { 
+					if (ventanaChat == null) { // solo la primera vez
+						ventanaChat = new JFrameChat();
+						prepararVentana(ventanaChat, bChat);
+					}
+					mostarApp(ventanaChat, bChat);
+				
 				}
 			}
 		});
+		
+		
+		
+		
+		
+		
 }
 	
+	
+	private JButton crearIconoBarra(String ruta, String nombre) {
+		Image img=new ImageIcon(ruta).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+		JButton boton = new JButton(new ImageIcon(img));
+		boton.setToolTipText(nombre);
+		boton.setPreferredSize(new Dimension(40, 35));
+		boton.setFocusPainted(false);
+		boton.setContentAreaFilled(false);
+		boton.setBorder(null);
+		boton.setVisible(false); // oculto hasta que se abra la app
+		panelCentro.add(boton);
+		return boton;
+	}
+	
+	
+	private void mostarApp(JFrame ventana, JButton icono) {
+		ventana.setExtendedState(JFrame.NORMAL);
+		ventana.setVisible(true);
+		ventana.toFront();
+		icono.setVisible(true);
+	}
+	
+	
+	
+	//IA
+	private void prepararVentana(JFrame ventana, JButton icono) {
+		ventana.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowIconified(WindowEvent e) {
+				ventana.setVisible(false);
+			}
+			@Override
+			public void windowClosing(WindowEvent e) {  // al cerrar con la X
+				icono.setVisible(false);                // el icono desaparece de la barra
+			}
+		});
+
+		// al pulsar el iconito: se vuelve a mostrar
+		icono.addActionListener(ev -> mostarApp(ventana, icono));
+	}
+	
+	
+	
+	private void cerrarApps() {
+		if (ventanaTerminal != null) {
+			ventanaTerminal.dispose();
+		}
+		if (ventanaChat != null) {
+			ventanaChat.dispose();
+		}
+		if (ventanaArchivos != null) {
+			ventanaArchivos.dispose();
+		}
+	}
 
 
 
