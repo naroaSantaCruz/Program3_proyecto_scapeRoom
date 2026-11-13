@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,8 +32,8 @@ public class JFrameChat extends JFrame{
 	private JPanel listaChats; //panel izquierda
 	private JPanel infoChat; //linea north con la informacion sobre el chat
 	private JPanel chat; //conversacion y boton escribir
-	private JPanel mensaje; //JPanelMensaje
-	private JPanel usu; //foto y nombre del usuario
+	private JButton usu; //foto y nombre del usuario
+	private JPanel pUsu;
 	private JPanel escribir; //barra de escribir
 	private JPanel panelConversacion;
 	private JScrollPane scrollConversacion;
@@ -42,6 +44,8 @@ public class JFrameChat extends JFrame{
 	private JLabel nombreUsu;
 	private JLabel emoji;
 	private JLabel chatBloqueado;
+	private JLabel textoPrev;
+	private JLabel textoPost;
 	
 	private String rutaFich = "documents/chat.csv";
 	
@@ -63,12 +67,13 @@ public class JFrameChat extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		
 		//panel principal
 		chatApp = new JPanel(new BorderLayout());
 		
 		//panel lista de chats
 		listaChats = new JPanel(new BorderLayout());
-		listaChats.setBackground(Color.DARK_GRAY);
+		listaChats.setBackground(new Color(128, 71, 43));
 		listaChats.setPreferredSize(new Dimension(200,765));
 		
 		fotoPerfil = new JLabel();
@@ -79,11 +84,50 @@ public class JFrameChat extends JFrame{
 		nombreUsu.setForeground(Color.WHITE);
 		nombreUsu.setFont(new Font("Romano", Font.ROMAN_BASELINE, 14));
 		
-		usu = new JPanel();
-		usu.add(fotoPerfil, BorderLayout.WEST);
-		usu.add(nombreUsu, BorderLayout.CENTER);
-		usu.setOpaque(false);
-		usu.setBorder(new LineBorder(Color.GREEN, 1));
+		usu = new JButton();
+		usu.setPreferredSize(new Dimension(200, 67));
+		usu.setBackground(new Color(128, 71, 43));
+		pUsu = new JPanel();
+		pUsu.add(fotoPerfil, BorderLayout.WEST);
+		pUsu.add(nombreUsu, BorderLayout.CENTER);
+		pUsu.setOpaque(false);
+		usu.add(pUsu);
+		
+		//action listeners del boton para visualizar la conversacion
+		usu.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				usu.setBackground(new Color(209, 116, 70));
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				usu.setBackground(new Color(128, 71, 43));
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				usu.setBackground(new Color(209, 116, 70));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				usu.setBackground(new Color(128, 71, 43));
+			}
+			
+		});
+		
+		usu.addActionListener(e -> {
+			if(chat.isVisible()) {
+				chat.setVisible(false);
+				infoChat.setVisible(false);
+			} else {
+				chat.setVisible(true);
+				infoChat.setVisible(true);
+			}
+			
+		});
 		listaChats.add(usu, BorderLayout.NORTH);
 		
 		
@@ -97,14 +141,26 @@ public class JFrameChat extends JFrame{
 		informacionChat.setFont(new Font("Arial", Font.HANGING_BASELINE, 16));
 		
 		infoChat.add(informacionChat);
+		infoChat.setVisible(false);
 		
 		//panel del chat
 		chat = new JPanel(new BorderLayout());
 		
+		fondoChat = new JLabel();
+		fondoChat.setIcon(new ImageIcon("images/chat_fjerda/fondoChat2.jpeg"));
+		fondoChat.setLayout(new BorderLayout());
+		
 		panelConversacion = new JPanel();
 		panelConversacion.setLayout(new BoxLayout(panelConversacion, BoxLayout.Y_AXIS));
+		panelConversacion.setOpaque(false);
 		
 		//añadir mensajes al JBox
+		textoPrev = new JLabel("--------------------------- Mensajes previos no disponibles ---------------------------");
+		textoPrev.setForeground(Color.WHITE);
+		textoPrev.setFont(new Font("Monospaced", Font.BOLD, 15));
+		textoPrev.setAlignmentX(CENTER_ALIGNMENT);
+		textoPrev.setBorder(new EmptyBorder(50,0,50,0));
+		panelConversacion.add(textoPrev);
 		
 		File converFich = new File(rutaFich);
 		try {
@@ -122,13 +178,25 @@ public class JFrameChat extends JFrame{
 			e.printStackTrace();
 		}
 		
+		//añadir mensaje con archivo con clave
+		
+		textoPost = new JLabel("--------------------------- chat bloqueado ---------------------------");
+		textoPost.setForeground(Color.WHITE);
+		textoPost.setFont(new Font("Monospaced", Font.BOLD, 15));
+		textoPost.setAlignmentX(CENTER_ALIGNMENT);
+		textoPost.setBorder(new EmptyBorder(50,0,50,0));
+		panelConversacion.add(textoPost);
 		
 		//añadir JBox al scroll
-		scrollConversacion = new JScrollPane(panelConversacion);		
+		scrollConversacion = new JScrollPane(panelConversacion);
+		scrollConversacion.setOpaque(false);
+		scrollConversacion.getViewport().setOpaque(false);
+		
+		fondoChat.add(scrollConversacion, BorderLayout.CENTER);
 		
 		//barra escribir
 		escribir = new JPanel(new BorderLayout());
-		escribir.setBackground(Color.WHITE);
+		escribir.setBackground(new Color(222, 195, 224));
 		escribir.setPreferredSize(new Dimension(1000, 45));
 		escribir.setBorder(new EmptyBorder(10,0,10,60));
 		
@@ -139,7 +207,7 @@ public class JFrameChat extends JFrame{
 		chatBloqueado = new JLabel("GhostKorp_Fj te ha bloqueado");
 		chatBloqueado.setForeground(Color.BLACK);
 		chatBloqueado.setFont(new Font("chat", Font.TRUETYPE_FONT, 13));
-		chatBloqueado.setBackground(Color.LIGHT_GRAY);
+		chatBloqueado.setBackground(new Color(198, 158, 201));
 		chatBloqueado.setOpaque(true);
 		chatBloqueado.setPreferredSize(new Dimension(600, 20));
 		chatBloqueado.setBorder(new LineBorder(Color.DARK_GRAY, 1));
@@ -150,7 +218,8 @@ public class JFrameChat extends JFrame{
 		escribir.add(chatBloqueado, BorderLayout.CENTER);
 		
 		chat.add(escribir, BorderLayout.SOUTH);
-		chat.add(scrollConversacion, BorderLayout.CENTER);
+		chat.add(fondoChat, BorderLayout.CENTER);
+		chat.setVisible(false);
 		
 		//añadir elementos al panel principal
 		chatApp.add(listaChats,BorderLayout.WEST);
@@ -161,5 +230,6 @@ public class JFrameChat extends JFrame{
 		
 		this.setVisible(true);
 	}
+
 
 }
