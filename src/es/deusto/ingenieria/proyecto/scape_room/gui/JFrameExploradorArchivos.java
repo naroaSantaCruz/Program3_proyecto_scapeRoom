@@ -176,7 +176,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		return imagenEscalada = new ImageIcon(imagenEscalada.getImage().getScaledInstance(tamano, tamano, Image.SCALE_DEFAULT));
 	}
 	
-	private Map<String,List<String>> crearMapaArchivos() {
+	public static Map<String,List<String>> crearMapaArchivos() {
 		Map<String, List<String>> mapaTree = new HashMap<String, List<String>>();
 		mapaTree.put("Escritorio", Arrays.asList("Papelera","Chat","Terminal"));
 		mapaTree.put("Documentos", Arrays.asList("Doc1","Doc2","Doc3","Doc4"));
