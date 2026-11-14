@@ -173,6 +173,7 @@ public class JFrameChat extends JFrame{
 				panelConversacion.add(msg);
 				panelConversacion.add(Box.createVerticalStrut(10));
 			}
+			leerFich.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
