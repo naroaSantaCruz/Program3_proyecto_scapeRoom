@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class JPanelMensaje extends JPanel{
 
@@ -21,7 +23,7 @@ public class JPanelMensaje extends JPanel{
 	private ImageIcon burbujaLiam = new ImageIcon("images/chat_fjerda/burbujaLiam.png");
 	private Image imagenRedi;
 	
-	private String[] nombresUsuarios = {"    GhostKorp_Fj", "Me    "};
+	private String[] nombresUsuarios = {"GhostKorp_Fj", "Me"};
 
 	public JPanelMensaje(int codUsuario, String[] mensaje) {
 		
@@ -30,14 +32,15 @@ public class JPanelMensaje extends JPanel{
 		
 		usuario = new JLabel(nombresUsuarios[codUsuario]);
 		usuario.setOpaque(false);
-		usuario.setFont(new Font("Monospaced", Font.BOLD, 12));
+		usuario.setFont(new Font("Monospaced", Font.BOLD, 13));
+		usuario.setForeground(Color.LIGHT_GRAY);
 		burbuja = new JLabel();
 		burbuja.setOpaque(false);
 		burbuja.setFont(new Font("Verdana", Font.PLAIN, 14));
 		
 		//resize burbuja dependiendo del numero de lineas
 		int h = 40*mensaje.length;
-		int l = 440;
+		int l = 10*mensaje[0].length();
 		
 		//montar el mensaje
 		String mensajeText = "<html>";
@@ -53,12 +56,16 @@ public class JPanelMensaje extends JPanel{
 			imagenRedi = burbujaKorp.getImage().getScaledInstance(l, h, Image.SCALE_SMOOTH);
 			burbuja.setForeground(Color.BLACK);
 			burbuja.setHorizontalAlignment(SwingConstants.LEFT);
+			burbuja.setBorder(new EmptyBorder(0,40,2,0));
 			usuario.setHorizontalAlignment(SwingConstants.LEFT);
+			usuario.setBorder(new EmptyBorder(0,40,0,0));
 		} else if(codUsuario==1) {
 			imagenRedi = burbujaLiam.getImage().getScaledInstance(l, h, Image.SCALE_SMOOTH);
-			burbuja.setForeground(Color.LIGHT_GRAY);
+			burbuja.setForeground(Color.WHITE);
 			burbuja.setHorizontalAlignment(SwingConstants.RIGHT);
+			burbuja.setBorder(new EmptyBorder(0,0,2,40));
 			usuario.setHorizontalAlignment(SwingConstants.RIGHT);
+			usuario.setBorder(new EmptyBorder(0,0,0,40));
 		}
 		
 		ImageIcon imagen = new ImageIcon(imagenRedi);
@@ -71,7 +78,7 @@ public class JPanelMensaje extends JPanel{
 		
 		//añadir elementos al panel principal
 		this.add(burbuja, BorderLayout.CENTER);
-		this.add(usuario, BorderLayout.NORTH);
+		this.add(usuario, BorderLayout.SOUTH);
 		
 	}
 }

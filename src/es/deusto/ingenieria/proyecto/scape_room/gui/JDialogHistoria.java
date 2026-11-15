@@ -92,6 +92,8 @@ public class JDialogHistoria extends JDialog{
 		//si hago click en el boton 'anterior' muestra el texto anterior
 		bAnterior.addMouseListener(new MouseAdapter() {
 
+			
+			//cambiar para cargarlo desde el csv
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textoActual>0) {
