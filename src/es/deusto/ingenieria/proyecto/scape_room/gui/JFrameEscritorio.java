@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonInicio;
@@ -88,16 +90,17 @@ public class JFrameEscritorio extends JFrame{
 		crearBarraAbajo();
 		crearMenuInicio();
 		crearPanelPendrive();
-		eventosBoton();
-		configurarVentana();
 		crearPanelAnag();
 		crearPanelTimer();
-		//JDialogVirus virus = new JDialogVirus();
-		panelTimer.iniciarTimer();
-		
-		
+		eventosBoton();
+		configurarVentana();
+		this.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			new JDialogVirus();         // se queda aquí hasta que el virus se cierra solo
+			panelTimer.iniciarTimer();  // el tiempo empieza justo después
+		});
 	}
-
+		
 	
 	//----------------------------------
 	//FONDO Y ESCRITORIO
@@ -287,7 +290,10 @@ public class JFrameEscritorio extends JFrame{
 	
 	private void crearPanelTimer() {
 		panelTimer = new JPanelTimer();
-		//TODO ponerla en un sitio decente y que se vea, ns como hacer eso
+		int anchoPantalla = Toolkit.getDefaultToolkit().getScreenSize().width; //IA
+		panelTimer.setBounds(anchoPantalla - 180, 20, 160, 50);
+		imagenFondo.add(panelTimer, 0);
+		
 
 	}
 	
@@ -444,7 +450,7 @@ public class JFrameEscritorio extends JFrame{
 
 		bSuspender.addActionListener(e -> {
 			panelTimer.pausarReanudar();
-			JOptionPane.showConfirmDialog(this, "Quieres reanudar la partida");
+			JOptionPane.showMessageDialog(null, "Juego pausado, pulse aceptar para reanudar");
 			panelTimer.pausarReanudar();
 	});
 
