@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -160,7 +161,14 @@ public class JFrameExploradorArchivos extends JFrame {
 						this.setIcon(imagenEscalada("images/escritorio/chat.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Terminal") ) {
 						this.setIcon(imagenEscalada("images/escritorio/terminal.png",dimensionImagenPeque));
-					} else {
+					} else if ( nombreNodo.equals("familia_fjerda.jpg") ) {
+						this.setIcon(imagenEscalada("images/explorador_archivos/borrar.png",dimensionImagenPeque));
+					} else if ( nombreNodo.equals("Facturas") | nombreNodo.equals("Asesinatos") ) {
+						this.setIcon(imagenEscalada("images/explorador_archivos/carpeta.png",dimensionImagenPeque));
+					} else if ( nombreNodo.equals("Armas SIS") ) {
+						this.setIcon(imagenEscalada("images/explorador_archivos/sobresalir.png",dimensionImagenPeque));
+					}
+					else {
 						this.setIcon(imagenEscalada("images/explorador_archivos/expediente.png",dimensionImagenPeque));
 					}
 				}
@@ -181,7 +189,9 @@ public class JFrameExploradorArchivos extends JFrame {
 		mapaTree.put("Escritorio", Arrays.asList("Papelera","Chat","Terminal"));
 		mapaTree.put("Documentos", Arrays.asList("Doc1","Doc2","Doc3","Doc4"));
 		mapaTree.put("Imágenes", Arrays.asList("Imagen1","Imagen2","Imagen3","Imagen4"));
-		mapaTree.put("Papelera", Arrays.asList("Archivo borrado 1","Archivo borrado 2"));
+		mapaTree.put("Papelera", Arrays.asList("familia_fjerda.jpg"));
+		mapaTree.put("Facturas", Arrays.asList());
+		mapaTree.put("Asesinatos", Arrays.asList());
 		return mapaTree;
 	}
 	
@@ -271,6 +281,14 @@ public class JFrameExploradorArchivos extends JFrame {
 								panel.revalidate();
 								panel.repaint();
 							}
+						} else {
+							if ( nombreArchivo.equals("Facturas")) {
+								JPanel nuevoPanel = crearPanelFacturas();
+								panel.removeAll();
+								panel.add(nuevoPanel, BorderLayout.CENTER);
+								panel.revalidate();
+								panel.repaint();
+							}
 						}
 					}
 				} else if ( e.getClickCount() == 2 ) {
@@ -290,7 +308,41 @@ public class JFrameExploradorArchivos extends JFrame {
 				                        new JFrameChat();
 				                    }
 							}
-							
+							if ( nombreArchivo.equals("Papelera") ) {
+								int respuesta = JOptionPane.showConfirmDialog(
+				                        panel, "¿Deseas abrir la Papelera?","Abrir elemento",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				                    if (respuesta == JOptionPane.YES_OPTION) {
+				                        new JFramePapelera();
+				                    }
+							}
+							if ( nombreArchivo.equals("Asesinatos") ) {
+								JPasswordField contrasena = new JPasswordField();
+								contrasena.setPreferredSize(new Dimension(200,30));
+								JLabel labelContra = new JLabel("Contraseña:");
+								JPanel panelContra = new JPanel();
+								panelContra.add(labelContra);
+								panelContra.add(contrasena);
+								panelContra.setPreferredSize(new Dimension(300,50));
+								while ( true ) {
+									int respuesta = JOptionPane.showConfirmDialog(
+					                        panel, panelContra, "Acceso ENCRIPTADO",
+					                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+									if ( respuesta != JOptionPane.OK_OPTION ) {
+										break;
+									}
+				                	String contraIntroducida = String.valueOf(contrasena.getPassword());
+				                    if ( contraIntroducida.equals("contraseña") ) {
+				                    	JPanel nuevoPanel = crearPanelAsesinatos();
+										panel.removeAll();
+										panel.add(nuevoPanel, BorderLayout.CENTER);
+										panel.revalidate();
+										panel.repaint();
+										break;
+				                    } else {
+				                    	JOptionPane.showMessageDialog(panel,"Contraseña incorrecta. Inténtalo de nuevo.","Error",JOptionPane.ERROR_MESSAGE);
+				                    }
+								}
+							}
 						}
 					}
 				}
@@ -346,6 +398,86 @@ public class JFrameExploradorArchivos extends JFrame {
 	
 	private JPanel crearPanelImagenes() {
 		return crearPanelArchivos("Imágenes",mapaTree.get("Imágenes"));
+	}
+	
+	private JPanel crearPanelFacturas() {
+		JLabel labelTitulo = new JLabel("Facturas");
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.setOpaque(false);
+		JPanel panelArchivos = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelArchivos.setBackground(Color.WHITE);
+		
+		JButton btnTablaArmas = new JButton();
+		btnTablaArmas.setText("Armas SIS");
+		btnTablaArmas.setIcon(imagenEscalada("images/explorador_archivos/sobresalir.png",dimensionImagenPeque));
+		btnTablaArmas.setContentAreaFilled(false);
+		btnTablaArmas.setBorderPainted(false);
+		btnTablaArmas.setFocusPainted(false);
+		btnTablaArmas.setOpaque(false);
+		btnTablaArmas.addMouseListener( new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnTablaArmas.setContentAreaFilled(true);
+				btnTablaArmas.setBackground(new Color(215, 232, 250));
+				btnTablaArmas.setBorderPainted(true);;
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnTablaArmas.setContentAreaFilled(false);
+				btnTablaArmas.setBorderPainted(false);
+			}
+		});
+		btnTablaArmas.addActionListener( e -> new JFrameDocArmas() );
+		panelArchivos.add(btnTablaArmas);
+		
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+		panelArchivos.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+		
+		panel.add(labelTitulo, BorderLayout.NORTH);
+		panel.add(panelArchivos, BorderLayout.CENTER);
+		
+		return panel;
+	}
+	
+	private JPanel crearPanelAsesinatos() {
+		JLabel labelTitulo = new JLabel("Archivos encriptados");
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.setOpaque(false);
+		JPanel panelArchivos = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelArchivos.setBackground(Color.WHITE);
+		
+		JButton btnTablaAsesinatos = new JButton();
+		btnTablaAsesinatos.setText("Encargos SIS");
+		btnTablaAsesinatos.setIcon(imagenEscalada("images/explorador_archivos/sobresalir.png",dimensionImagenPeque));
+		btnTablaAsesinatos.setContentAreaFilled(false);
+		btnTablaAsesinatos.setBorderPainted(false);
+		btnTablaAsesinatos.setFocusPainted(false);
+		btnTablaAsesinatos.setOpaque(false);
+		btnTablaAsesinatos.addMouseListener( new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnTablaAsesinatos.setContentAreaFilled(true);
+				btnTablaAsesinatos.setBackground(new Color(215, 232, 250));
+				btnTablaAsesinatos.setBorderPainted(true);;
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnTablaAsesinatos.setContentAreaFilled(false);
+				btnTablaAsesinatos.setBorderPainted(false);
+			}
+		});
+		btnTablaAsesinatos.addActionListener( e -> new JFrameDocArmas() ); // TODO cambiar este por la tabla que me falta hacer
+		panelArchivos.add(btnTablaAsesinatos);
+		
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
+		panelArchivos.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+		
+		panel.add(labelTitulo, BorderLayout.NORTH);
+		panel.add(panelArchivos, BorderLayout.CENTER);
+		
+		return panel;
 	}
 	
 	private JPanel crearPanelArchivos(String titulo) {
@@ -426,6 +558,12 @@ public class JFrameExploradorArchivos extends JFrame {
 			label.setIcon(imagenEscalada("images/escritorio/chat.png",tamano));
 		} else if ( nombre.equals("Terminal") ) {
 			label.setIcon(imagenEscalada("images/escritorio/terminal.png",tamano));
+		} else if ( nombre.equals("familia_fjerda.jpg") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/borrar.png",tamano));
+		} else if ( nombre.equals("Facturas") | nombre.equals("Asesinatos") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/carpeta.png",tamano));
+		} else if ( nombre.equals("Armas SIS") ) {
+			label.setIcon(imagenEscalada("images/explorador_archivos/sobresalir.png",tamano));
 		} else {
 			label.setIcon(imagenEscalada("images/explorador_archivos/expediente.png",tamano));
 		}
