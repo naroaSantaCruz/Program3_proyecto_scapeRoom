@@ -4,13 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import es.deusto.ingenieria.proyecto.scape_room.domain.Expediente;
 
 public class JFrameModeloExpediente extends JFrame {
 	
@@ -27,11 +33,24 @@ public class JFrameModeloExpediente extends JFrame {
 	
 	public JButton bCerrar;
 	
+	public JPanel pfoto;
+	public JPanel pInfo;
 	
+	public JLabel lNombre;
+	public JLabel lInfo2;
+	public JLabel lInfo3;
+	public JLabel lInfo4;
 	
-	public JFrameModeloExpediente() {
+	public JPanel pDatos;
+	public JPanel pNotas;
+	
+	public JLabel lNotas;
+	public JLabel lFoto;
+	
+	public JFrameModeloExpediente(Expediente expediente) {
 		crearPaneles();
 		eventos();
+		cargarDatos(expediente);
 		configurarVentana();
 	}
 	
@@ -45,7 +64,9 @@ public class JFrameModeloExpediente extends JFrame {
 		pArriba=new JPanel(new GridLayout(2,1,5,5));
 		pArriba.setBackground(Color.black);
 		pArriba.setPreferredSize(new Dimension(0, 80));
-		pArriba.setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, Color.red)); //IA, para poner color solo en un borde
+		pArriba.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 5, 0, Color.red),
+				BorderFactory.createEmptyBorder(0, 22, 0, 22))); //IA, para poner color solo en un borde
 
 		pBordeCentro = new JPanel(new BorderLayout());
 		pBordeCentro.setBackground(Color.black);
@@ -58,8 +79,51 @@ public class JFrameModeloExpediente extends JFrame {
 		bCerrar.setBackground(Color.gray);
 		pAbajo.add(bCerrar,BorderLayout.EAST);
 		
-		pCentro=new JPanel(new GridLayout(1,2,5,5));
+		pCentro=new JPanel(new BorderLayout(20,0));
 		pCentro.setBackground(Color.LIGHT_GRAY);
+		pCentro.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+		pfoto=new JPanel(new BorderLayout());
+		//añadir foto en border.north
+		pfoto.setBackground(Color.WHITE);
+		pfoto.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(new Color(207, 201, 182)),
+				BorderFactory.createEmptyBorder(8, 8, 0, 8)));
+		pfoto.setPreferredSize(new Dimension(170, 210));
+		
+		lFoto=new JLabel("FOTO", SwingConstants.CENTER);
+		lFoto.setOpaque(true);
+		lFoto.setBackground(Color.gray);
+		lFoto.setPreferredSize(new Dimension(154, 154));
+		pfoto.add(lFoto, BorderLayout.NORTH);
+
+		JPanel contenedorFoto = new JPanel(new BorderLayout());
+		contenedorFoto.setOpaque(false);
+		contenedorFoto.add(pfoto, BorderLayout.NORTH);
+		pCentro.add(contenedorFoto, BorderLayout.WEST);
+		
+		pDatos=new JPanel(new GridLayout(2,1,3,3));
+		pDatos.setOpaque(false);
+		
+		pInfo=new JPanel(new GridLayout(4,1,1,1));
+		pInfo.setOpaque(false);
+		lNombre=new JLabel("NOMBRE");
+		lInfo2=new JLabel("Info2");
+		lInfo3=new JLabel("Info3");
+		lInfo4=new JLabel("Info4");
+		pInfo.add(lNombre);
+		pInfo.add(lInfo2);
+		pInfo.add(lInfo3);
+		pInfo.add(lInfo4);
+		pNotas=new JPanel(new BorderLayout());
+		pNotas.setOpaque(false);
+		lNotas=new JLabel("NOTAS");
+		pNotas.add(lNotas);
+		
+		
+		
+		pDatos.add(pInfo);
+		pDatos.add(pNotas);
+		pCentro.add(pDatos, BorderLayout.CENTER);
 		pBordeCentro.add(pCentro,BorderLayout.CENTER);
 		
 		
@@ -68,8 +132,12 @@ public class JFrameModeloExpediente extends JFrame {
 		pPrincipal.add(pAbajo,BorderLayout.SOUTH);
 		
 		
-		textoArriba=new JLabel();
-		subtextoArriba=new JLabel();
+		textoArriba=new JLabel("EXPEDIENTE Nº 042");
+		textoArriba.setForeground(Color.WHITE);
+		textoArriba.setFont(new Font("Consolas", Font.BOLD, 20));
+		subtextoArriba=new JLabel("Acceso restringido · solo personal autorizado");
+		subtextoArriba.setForeground(new Color(141, 141, 152));
+		subtextoArriba.setFont(new Font("Consolas", Font.PLAIN, 11));
 		pArriba.add(textoArriba);
 		pArriba.add(subtextoArriba);
 		
@@ -99,9 +167,35 @@ public class JFrameModeloExpediente extends JFrame {
 		this.setVisible(true);
 	}
 
+	
+	public void cargarDatos(Expediente e) {
+		textoArriba.setText(e.getTitulo());
+		subtextoArriba.setText(e.getSubtitulo());
+		lNombre.setText(e.getNombre());
+		lInfo2.setText(e.getInfo2());
+		lInfo3.setText(e.getInfo3());
+		lInfo4.setText(e.getInfo4());
+		lNotas.setText("<html>" + e.getNotas() + "</html>"); // el html hace que el texto largo baje de línea
+
+		// Foto escalada al hueco de la polaroid
+		lFoto.setText("");
+		lFoto.setIcon(new ImageIcon(new ImageIcon(e.getRutaFoto()).getImage()
+				.getScaledInstance(154, 154, Image.SCALE_SMOOTH)));
+	}
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new JFrameModeloExpediente();
+		Expediente prueba = new Expediente(
+				"FICHA PENITENCIARIA Nº 0931",
+				"Centro penitenciario · uso interno",
+				"images/expedientes/jefe.png",
+				"Ernesto Valdés Mora",
+				"Condena: 12 años",
+				"Ubicación: Centro penitenciario norte",
+				"Delito: [CENSURADO]",
+				"Salió hace tres años. Fundó la empresa justo después.");
+		new JFrameModeloExpediente(prueba);
 
 	}
 
