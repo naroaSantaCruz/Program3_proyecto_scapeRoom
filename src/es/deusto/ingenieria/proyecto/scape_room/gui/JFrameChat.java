@@ -133,11 +133,11 @@ public class JFrameChat extends JFrame{
 		
 		//barra info del chat
 		infoChat = new JPanel();
-		infoChat.setBackground(Color.BLACK);
+		infoChat.setBackground(new Color(240, 229, 209));
 		infoChat.setPreferredSize(new Dimension(1200, 35));
 		
-		informacionChat = new JLabel("Última conexión: hace 2 días. | Contacto desconocido. | Número de mensajes: 300.");
-		informacionChat.setForeground(Color.GRAY);
+		informacionChat = new JLabel("Última conexión: hace 2 días. | Contacto desconocido. | Número de mensajes: 76");
+		informacionChat.setForeground(Color.DARK_GRAY);
 		informacionChat.setFont(new Font("Arial", Font.HANGING_BASELINE, 16));
 		
 		infoChat.add(informacionChat);
@@ -226,6 +226,7 @@ public class JFrameChat extends JFrame{
 		chatApp.add(listaChats,BorderLayout.WEST);
 		chatApp.add(infoChat, BorderLayout.NORTH);
 		chatApp.add(chat, BorderLayout.CENTER);
+		chatApp.setBackground(new Color(240, 229, 209));
 		
 		this.add(chatApp);
 		
