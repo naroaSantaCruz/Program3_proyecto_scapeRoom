@@ -468,7 +468,7 @@ public class JFrameExploradorArchivos extends JFrame {
 				btnTablaAsesinatos.setBorderPainted(false);
 			}
 		});
-		btnTablaAsesinatos.addActionListener( e -> new JFrameDocArmas() ); // TODO cambiar este por la tabla que me falta hacer
+		btnTablaAsesinatos.addActionListener( e -> new JTableAsesinatos() ); // TODO cambiar este por la tabla que me falta hacer
 		panelArchivos.add(btnTablaAsesinatos);
 		
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
