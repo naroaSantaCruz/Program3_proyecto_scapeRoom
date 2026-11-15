@@ -88,10 +88,7 @@ public class JFrameEscritorio extends JFrame{
 		configurarVentana();
 		crearPanelAnag();
 		JDialogVirus virus = new JDialogVirus();
-		//TODO usar hilos cuando sepamos
-		Timer timer = new Timer(500, e -> {virus.setVisible(true);});
-		timer.setRepeats(false);
-		timer.start();
+		
 		
 	}
 

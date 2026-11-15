@@ -122,8 +122,9 @@ public class JFramePantallaInicio extends JFrame {
 	    			"Apagar",JOptionPane.YES_NO_OPTION);
 	    	if ( opcion == JOptionPane.YES_OPTION ) {
 	    		new JFrameMenuPrincipal();
-	    		this.dispose();
 	    		ventanaTextoInicio.dispose();
+	    		JFramePantallaInicio.this.dispose();
+
 	    	}
 	    });
 	    botonReiniciar.addActionListener(e -> {
