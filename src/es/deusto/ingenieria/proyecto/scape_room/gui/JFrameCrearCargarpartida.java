@@ -28,7 +28,7 @@ import es.deusto.ingenieria.proyecto.scape_room.domain.Partida;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.BordePanelesMenu;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.BordeVentana;
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonMenu;
-
+import es.deusto.ingenieria.proyecto.scape_room.gui.JFramePantallaInicio;
 
 public class JFrameCrearCargarpartida extends JFrame{
 	
@@ -103,7 +103,9 @@ public class JFrameCrearCargarpartida extends JFrame{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO QUE TE LLEVE A CREAR PARTIDA
+				JDialogHistoria dialog = new JDialogHistoria();
+				JFramePantallaInicio pantallaInicio = new JFramePantallaInicio();
+				JFrameCrearCargarpartida.this.dispose();
 
 			}
 

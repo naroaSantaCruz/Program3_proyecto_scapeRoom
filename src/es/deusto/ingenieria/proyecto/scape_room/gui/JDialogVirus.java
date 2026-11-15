@@ -15,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+
 
 public class JDialogVirus extends JDialog{
 
@@ -23,6 +25,7 @@ public class JDialogVirus extends JDialog{
 	private JPanel panelFondo = new JPanel(new BorderLayout());
 	private JPanel panelImagen = new JPanel();
 	private JPanel panelBarratexto = new JPanel();
+	private JProgressBar barraDescarga = new JProgressBar(0,100);
 	private final ImageIcon warning = new ImageIcon("images/escritorio/warning_virus.png");
 	private final static String TEXTO = """
 		    <html>
@@ -49,27 +52,15 @@ public class JDialogVirus extends JDialog{
 		panelImagen.add(imagen);
 		panelImagen.setOpaque(false);
 		
-		JProgressBar barraDescarga = new JProgressBar(0,100);
 		barraDescarga.setPreferredSize(new Dimension(200,20));
-		barraDescarga.setForeground(Color.green);
 		barraDescarga.setBackground(Color.black);
+		barraDescarga.setForeground(Color.green);
+		barraDescarga.setValue(0);
 		barraDescarga.setBorder(BorderFactory.createLineBorder(Color.green));
 		panelBarratexto.add(barraDescarga);
 		panelBarratexto.setOpaque(false);
 		panelBarratexto.setBorder(BorderFactory.createEmptyBorder(20, 10, 50, 10));
-		Timer timer = new Timer(130, null);
 		
-		timer.addActionListener(e ->{
-			if (barraDescarga.getValue()<100) {
-				barraDescarga.setValue(barraDescarga.getValue()+1);
-			}
-			else {
-				this.setVisible(false);
-				this.dispose();
-				timer.stop();
-			}
-		});
-		timer.start();
 		
 		JLabel textoExplicacion = new JLabel(TEXTO);
 		textoExplicacion.setForeground(Color.green);
@@ -86,6 +77,32 @@ public class JDialogVirus extends JDialog{
 		this.setContentPane(panelFondo);
 		this.setLocationRelativeTo(null);
 
+		
+		Thread hiloBarra = new Thread() {
+			@Override
+			public void run() {
+				try {
+					sleep(500);
+				}catch(InterruptedException e) {
+					return;
+				}
+				for(int i=0; i<=100; i++) {
+					try {
+						sleep(150);
+					}catch(InterruptedException e) {
+						break;
+					}
+					final int valor = i;
+					SwingUtilities.invokeLater(()->barraDescarga.setValue(valor));
+				}
+				JDialogVirus.this.dispose();
+		}
+			
+		};
+
+		hiloBarra.start();
+		
+		this.setVisible(true);
 	}
 
 }

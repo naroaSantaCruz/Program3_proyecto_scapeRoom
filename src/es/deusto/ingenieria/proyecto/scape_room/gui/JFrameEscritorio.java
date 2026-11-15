@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -27,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import es.deusto.ingenieria.proyecto.scape_room.gui.components.JBotonInicio;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JPanelTimer;
 
 public class JFrameEscritorio extends JFrame{
 
@@ -40,7 +43,8 @@ public class JFrameEscritorio extends JFrame{
 		private JPanel panelDerecha;
 		private JPanel menuDesplegable;
 		private JPanel panelAnag;
-
+		private JPanelTimer panelTimer;
+		
 		// Componentes del escritorio
 		private JLabel papelera;
 		private JLabel explorador_archivos;
@@ -87,11 +91,10 @@ public class JFrameEscritorio extends JFrame{
 		eventosBoton();
 		configurarVentana();
 		crearPanelAnag();
-		JDialogVirus virus = new JDialogVirus();
-		//TODO usar hilos cuando sepamos
-		Timer timer = new Timer(500, e -> {virus.setVisible(true);});
-		timer.setRepeats(false);
-		timer.start();
+		crearPanelTimer();
+		//JDialogVirus virus = new JDialogVirus();
+		panelTimer.iniciarTimer();
+		
 		
 	}
 
@@ -282,6 +285,12 @@ public class JFrameEscritorio extends JFrame{
 		imagenFondo.add(panelAnag,0);
 	}
 	
+	private void crearPanelTimer() {
+		panelTimer = new JPanelTimer();
+		//TODO ponerla en un sitio decente y que se vea, ns como hacer eso
+
+	}
+	
 	
 	// ----------------------------
 	// EVENTOS
@@ -417,6 +426,7 @@ public class JFrameEscritorio extends JFrame{
 				JFrameEscritorio.this.dispose();
 				cerrarApps();
 				new JFrameMenuPrincipal();
+				panelTimer.terminarHilo();
 		}
 	});
 
@@ -427,14 +437,15 @@ public class JFrameEscritorio extends JFrame{
 			if (r == JOptionPane.YES_OPTION) {
 				JFrameEscritorio.this.dispose();
 				new JFrameEscritorio();
+				panelTimer.terminarHilo();
 		}
 			
 	});
 
 		bSuspender.addActionListener(e -> {
-			//Pausar temporizador
-			//menuDesplegable.setVisible(false);
-			//System.out.println("Suspender");
+			panelTimer.pausarReanudar();
+			JOptionPane.showConfirmDialog(this, "Quieres reanudar la partida");
+			panelTimer.pausarReanudar();
 	});
 
 		bCerrarSesion.addActionListener(e -> {
@@ -442,6 +453,7 @@ public class JFrameEscritorio extends JFrame{
 			JFrameEscritorio.this.dispose();
 			cerrarApps();
 			new JFrameMenuPrincipal();
+			panelTimer.terminarHilo();
 	});
 		//mouse listener para que se cambie el borde
 		terminal.addMouseListener(new MouseAdapter() {
@@ -516,9 +528,19 @@ public class JFrameEscritorio extends JFrame{
 			}
 		});
 		
-		
-		
-		
+		//TIMER: (si se quiere pausar con el boton de esc)
+		panelPrincipal.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					panelTimer.pausarReanudar();
+					JOptionPane.showMessageDialog(null, "Juego pausado, pulse aceptar para reanudar");
+					panelTimer.pausarReanudar();
+				}
+			}
+			
+		});
 		
 		
 }
@@ -587,6 +609,7 @@ public class JFrameEscritorio extends JFrame{
 	private void configurarVentana() {
 		panelPrincipal.add(imagenFondo,BorderLayout.CENTER);
 		panelPrincipal.add(barraAbajo,BorderLayout.SOUTH);
+		panelPrincipal.setFocusable(true);
 		this.add(panelPrincipal);
 		
 		this.setTitle("Escritorio");
