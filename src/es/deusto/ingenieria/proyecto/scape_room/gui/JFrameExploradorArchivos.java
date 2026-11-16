@@ -75,7 +75,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		mapaTree = crearMapaArchivos();
 		
 		jTreeArchivos = crearTreeExplorador(mapaTree);
-		dobleClickNodo = dobleClick(jTreeArchivos,pCentro);
+		dobleClickNodo = dobleClick(jTreeArchivos,pCentro,this);
 		jTreeArchivos.addMouseListener(dobleClickNodo);
 		JScrollPane scrollPane = new JScrollPane(jTreeArchivos);
 		scrollPane.setPreferredSize(new Dimension(250,600));
@@ -155,7 +155,7 @@ public class JFrameExploradorArchivos extends JFrame {
 						this.setIcon(imagenEscalada("images/explorador_archivos/google-docs.png",dimensionImagenPeque));
 					} else if ( nombreNodo.toLowerCase().contains("borrado") ) {
 						this.setIcon(imagenEscalada("images/explorador_archivos/borrar.png",dimensionImagenPeque));
-					} else if ( nombreNodo.toLowerCase().contains("imagen") ) {
+					} else if ( nombreNodo.toLowerCase().contains(".png") ) {
 						this.setIcon(imagenEscalada("images/explorador_archivos/imagen.png",dimensionImagenPeque));
 					} else if ( nombreNodo.equals("Chat") ) {
 						this.setIcon(imagenEscalada("images/escritorio/chat.png",dimensionImagenPeque));
@@ -188,7 +188,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		Map<String, List<String>> mapaTree = new HashMap<String, List<String>>();
 		mapaTree.put("Escritorio", Arrays.asList("Papelera","Chat","Terminal"));
 		mapaTree.put("Documentos", Arrays.asList("Doc1","Doc2","Doc3","Doc4"));
-		mapaTree.put("Imágenes", Arrays.asList("Imagen1","Imagen2","Imagen3","Imagen4"));
+		mapaTree.put("Imágenes", Arrays.asList("9.png","M.png","G.png"));
 		mapaTree.put("Papelera", Arrays.asList("familia_fjerda.jpg"));
 		mapaTree.put("Facturas", Arrays.asList());
 		mapaTree.put("Asesinatos", Arrays.asList());
@@ -240,7 +240,7 @@ public class JFrameExploradorArchivos extends JFrame {
 		}
 	}
 	
-	private MouseAdapter dobleClick(JTree tree,JPanel panel) {
+	private MouseAdapter dobleClick(JTree tree,JPanel panel,JFrame frame) {
 		MouseAdapter click = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -342,6 +342,10 @@ public class JFrameExploradorArchivos extends JFrame {
 				                    	JOptionPane.showMessageDialog(panel,"Contraseña incorrecta. Inténtalo de nuevo.","Error",JOptionPane.ERROR_MESSAGE);
 				                    }
 								}
+							}
+							if ( nombreArchivo.contains(".png") ) {
+								String ruta = "images/fotos_pistas_chat/"+nombreArchivo;
+								new JFrameVisualizarImagenes(ruta, frame);
 							}
 						}
 					}
@@ -468,7 +472,7 @@ public class JFrameExploradorArchivos extends JFrame {
 				btnTablaAsesinatos.setBorderPainted(false);
 			}
 		});
-		btnTablaAsesinatos.addActionListener( e -> new JTableAsesinatos() ); // TODO cambiar este por la tabla que me falta hacer
+		btnTablaAsesinatos.addActionListener( e -> new JTableAsesinatos() );
 		panelArchivos.add(btnTablaAsesinatos);
 		
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));

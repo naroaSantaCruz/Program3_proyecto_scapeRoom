@@ -31,7 +31,7 @@ public class JFrameVisualizarImagenes extends JFrame{
 		this.setTitle(nombreFoto);
 		this.setSize(new Dimension(width,height));
 		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout( new BorderLayout() );
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
