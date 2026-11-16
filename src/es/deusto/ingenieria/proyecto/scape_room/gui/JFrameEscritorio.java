@@ -57,7 +57,6 @@ public class JFrameEscritorio extends JFrame{
 		private JTextField barraBusqueda;
 		private JPanel panelPendrive;
 		private JLabel lblPendrive;
-		private JLabel lblSinDispositivos;
 		private JButton bPendrive;
 		private JButton bFlecha;
 		private JLabel reloj;
@@ -70,11 +69,7 @@ public class JFrameEscritorio extends JFrame{
 		
 		private JFrameExploradorArchivos ventanaArchivos;
 		private JButton bArchivos;
-		
-		
-		
-		
-		
+
 
 		// Botones del menú de inicio
 		private JButton bApagar;
@@ -83,6 +78,14 @@ public class JFrameEscritorio extends JFrame{
 		private JButton bCerrarSesion;
 		
 
+		
+		private JDialogStickyNote nota;
+		private JDialogStickyNote notaPista;
+		
+		
+		
+		//HACER Q LAS STICKY NOTES NO SALGAN POR ENCIMA DE LOS JFRAMES
+		
 	
 	public JFrameEscritorio() {
 		// TODO Auto-generated constructor stub
@@ -93,12 +96,14 @@ public class JFrameEscritorio extends JFrame{
 		crearPanelAnag();
 		crearPanelTimer();
 		eventosBoton();
+		generarNotes();
 		configurarVentana();
 		this.setVisible(true);
 		SwingUtilities.invokeLater(() -> {
 			new JDialogVirus();         // se queda aquí hasta que el virus se cierra solo
 			panelTimer.iniciarTimer();  // el tiempo empieza justo después
 		});
+	
 	}
 		
 	
@@ -322,7 +327,7 @@ public class JFrameEscritorio extends JFrame{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) { // doble clic, como en Windows
-				System.out.println("Papelera abierta");
+				new JFramePapelera();
 				
 			}
 		}
@@ -604,8 +609,28 @@ public class JFrameEscritorio extends JFrame{
 		if (ventanaArchivos != null) {
 			ventanaArchivos.dispose();
 		}
+		if(nota!=null) {
+			nota.dispose();;
+		}
+		if(notaPista!=null) {
+			notaPista.dispose();
+		}
 	}
 
+	private void generarNotes() {
+		nota = new JDialogStickyNote();
+		nota.setTexto(true);
+		nota.setLocation(160, 180);
+		nota.setVisible(true);
+		
+		notaPista = new JDialogStickyNote();
+		notaPista.setTexto(false);
+		notaPista.setLocation(1200, 500);
+		notaPista.setVisible(true);
+	}
+	
+	
+	
 
 
 	// --------------------------------

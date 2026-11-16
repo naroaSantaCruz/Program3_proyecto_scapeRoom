@@ -25,9 +25,8 @@ public class JFrameTerminal extends JFrame{
 	private static final Color texto=new Color(0, 255, 70);
 	private static final Font fuente=new Font("Consolas", Font.PLAIN, 15);
 	
-	private static final String[] COMANDOS = { "help", "cl", "ls", "ls -a", "cd", "pwd", "cat",
-			"grep", "find", "chmod +r", "cp" };
-	//comandos
+	private static final String[] COMANDOS = { "help", "cl", "ls", "ls -a", "cd", "pwd", "cat", "chmod +r"}; //"cp" 
+	
 	private static final String[][] AYUDA = {
 			{ "help", "muestra esta ayuda" },
 			{ "cl", "limpia la pantalla" },

@@ -53,13 +53,13 @@ public class JDialogStickyNote extends JDialog {
 		}
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		JDialogStickyNote nota = new JDialogStickyNote();
 		nota.setTexto(true);
 		nota.setVisible(true);
 		JDialogStickyNote notaPista = new JDialogStickyNote();
 		notaPista.setTexto(false);
 		notaPista.setVisible(true);
-	}
+	}*/
 
 }
