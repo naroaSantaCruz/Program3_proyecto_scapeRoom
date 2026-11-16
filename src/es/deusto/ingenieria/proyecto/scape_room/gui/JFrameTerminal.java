@@ -16,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import es.deusto.ingenieria.proyecto.scape_room.domain.Expediente;
+
 public class JFrameTerminal extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -194,6 +196,8 @@ public class JFrameTerminal extends JFrame{
 			}else if(partes[1].equalsIgnoreCase("expediente") && permiso==true) {
 				this.setVisible(false);
 				JOptionPane.showMessageDialog(JFrameTerminal.this, "¡Fichero conseguido!");
+				new JFrameModeloExpediente(Expediente.directorSis()); 
+				//crear en el escritorio un acceso para poder abrirlo más veces
 			}
 			else{salida.append("TEXTO\n");} //RELLENAR
 			
