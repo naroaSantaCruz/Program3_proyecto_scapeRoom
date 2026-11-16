@@ -331,7 +331,7 @@ public class JFrameExploradorArchivos extends JFrame {
 										break;
 									}
 				                	String contraIntroducida = String.valueOf(contrasena.getPassword());
-				                    if ( contraIntroducida.equals("contraseña") ) {
+				                    if ( contraIntroducida.equals("paro") ) {
 				                    	JPanel nuevoPanel = crearPanelAsesinatos();
 										panel.removeAll();
 										panel.add(nuevoPanel, BorderLayout.CENTER);
