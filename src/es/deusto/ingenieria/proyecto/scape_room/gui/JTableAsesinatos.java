@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import es.deusto.ingenieria.proyecto.scape_room.domain.Asesinato;
 import es.deusto.ingenieria.proyecto.scape_room.domain.Expediente;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JFrameModeloExpediente;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JTableAsesinatosModel;
 
 public class JTableAsesinatos extends JFrame {
 	

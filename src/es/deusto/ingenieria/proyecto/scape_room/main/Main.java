@@ -13,8 +13,8 @@ import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameDocArmas;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameDocArmasFj;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameEscritorio;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameMenuPrincipal;
-import es.deusto.ingenieria.proyecto.scape_room.gui.JFrameModeloExpediente;
 import es.deusto.ingenieria.proyecto.scape_room.gui.JFramePantallaInicio;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JFrameModeloExpediente;
 
 public class Main {
 

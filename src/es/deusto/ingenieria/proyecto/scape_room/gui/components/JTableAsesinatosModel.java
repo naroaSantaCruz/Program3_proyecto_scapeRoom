@@ -1,4 +1,4 @@
-package es.deusto.ingenieria.proyecto.scape_room.gui;
+package es.deusto.ingenieria.proyecto.scape_room.gui.components;
 
 import java.io.File;
 import java.io.FileNotFoundException;

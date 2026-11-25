@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import es.deusto.ingenieria.proyecto.scape_room.domain.Expediente;
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JFrameModeloExpediente;
 
 public class JFrameTerminal extends JFrame{
 

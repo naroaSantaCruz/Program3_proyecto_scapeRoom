@@ -21,6 +21,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 
+import es.deusto.ingenieria.proyecto.scape_room.gui.components.JTableArmasModel;
+
 public class JFrameDocArmas extends JFrame{
 
 	private static final long serialVersionUID = 1L;

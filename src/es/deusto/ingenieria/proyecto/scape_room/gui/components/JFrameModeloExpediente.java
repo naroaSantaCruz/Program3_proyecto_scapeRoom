@@ -1,4 +1,4 @@
-package es.deusto.ingenieria.proyecto.scape_room.gui;
+package es.deusto.ingenieria.proyecto.scape_room.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
